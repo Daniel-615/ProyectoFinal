@@ -1,0 +1,9 @@
+x64
+libcrypto-1_1-x64.dll
+libmysql.dll
+libmysql.lib
+libssl-1_1-x64.dll
+mysqlcppconn.lib
+ProyectoFinal.vcxproj
+ProyectoFinal.vcxproj.filters
+ProyectoFinal.vcxproj.user

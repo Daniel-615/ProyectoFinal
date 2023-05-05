@@ -7,13 +7,14 @@ using namespace std;
 class Cliente
 {
 	private:
-		int idCliente=0,genero=0;
+		int idCliente=0;
+		bool genero=0;
 		string nombres, apellidos, Nit,telefono,correo_electronico,fecha_ingreso;
 	//constructor
 	public:
 	Cliente() {
 	};
-	Cliente(int id, string nom, string ape, string n, int g,string phone, string correo, string fecha) {
+	Cliente(int id, string nom, string ape, string n, bool g,string phone, string correo, string fecha) {
 		idCliente = id;
 		nombres = nom;
 		apellidos= ape;
@@ -23,13 +24,16 @@ class Cliente
 		correo_electronico = correo;
 		fecha_ingreso = fecha;
 	};
+	Cliente(int id) {
+		idCliente = id;
+	};
 	//metodos
 	//set (modificar)
 	void setidCliente(int id) { idCliente = id; }
 	void setNombres(string nom) { nombres = nom; }
 	void setApellidos(string ape) { apellidos = ape; }
 	void setNit(string n) { Nit = n; }
-	void setGenero(int g) { genero = g; }
+	void setGenero(bool g) { genero = g; }
 	void setTelefono(string phone) { telefono = phone; }
 	void setCorreo_electronico(string correo) { correo_electronico = correo; }
 	void setfechaingreso(string fecha) { fecha_ingreso = fecha; }
@@ -38,13 +42,12 @@ class Cliente
 	string getNombres() { return nombres; }
 	string getApellidos() { return apellidos; }
 	string getNit() { return Nit; }
-	int getGenero() { return genero; }
+	bool getGenero() { return genero; }
 	string getTelefono() { return telefono; }
 	string getCorreo_electronico() { return correo_electronico; }
 	string getfechaingreso() { return fecha_ingreso; }
 
 	//CRUD
-
 	//Crear arreglar lo de Bit (genero)
 	void crear() {
 		int q_estado;
@@ -53,8 +56,9 @@ class Cliente
 		if (cn.getConectar()) {
 
 			string t = to_string(idCliente);
-			string ge = to_string(genero);
-			string insert = "INSERT INTO clientes(idCliente,nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "','" + ge + "','"+telefono+"','" + correo_electronico + "','" + fecha_ingreso + "')";
+			int genero_int = genero ? 1 : 0;
+			string insert = "INSERT INTO clientes(idCliente,nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) "
+				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "',genero=" + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "','" + fecha_ingreso + "')";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -63,7 +67,7 @@ class Cliente
 			}
 			else {
 				system("cls");
-				cout << "Query Insert got problems";
+				cout << "Query Insert got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 		}
 		else {
@@ -99,7 +103,7 @@ class Cliente
 			}
 			else {
 				system("cls");
-				cout << "Query Select got problems" << endl;
+				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 
 		}
@@ -109,9 +113,51 @@ class Cliente
 		cn.cerrar_conexion();
 	}
 	void actualizar() {
-
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConectar()) {
+			string t = to_string(idCliente);
+			int genero_int = genero ? 1 : 0;
+			string update = "UPDATE clientes SET nombres='" + nombres + "',apellidos='" + apellidos + "',NIT='" + Nit + "',genero=" + to_string(genero_int) + ",telefono='" + telefono + "',correo_electronico='" + correo_electronico + "',fechaingreso='" + fecha_ingreso + "' WHERE idCliente = '" + t + "'";
+			const char* u = update.c_str();
+			q_estado = mysql_query(cn.getConectar(), u);
+			if (!q_estado) {
+				system("cls");
+				cout << "Query Update Successfuly" << endl;
+			}
+			else {
+				system("cls");
+				cout << "Query Update Failed: " << mysql_error(cn.getConectar()) << endl;
+			}
+		}
+		else {
+			cout << "Error al conectar" << endl;
+		}
+		cn.cerrar_conexion();
 	};
+
 	void eliminar() {
-
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConectar()) {
+			string deleteQuery = "DELETE FROM clientes WHERE idCliente = '" + to_string(idCliente) + "'";
+			const char* d = deleteQuery.c_str();
+			q_estado = mysql_query(cn.getConectar(), d);
+			if (!q_estado) {
+				system("cls");
+				cout << "Query Delete Successfuly" << endl;
+			}
+			else {
+				system("cls");
+				cout << "Query Delete got problems";
+			}
+		}
+		else {
+			cout << "Error al conectar" << endl;
+		}
+		cn.cerrar_conexion();
 	};
+
 };

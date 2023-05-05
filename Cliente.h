@@ -3,6 +3,7 @@
 #include <mysql.h>
 #include "ConexionBD.h"
 #include <string>
+#include <cstdlib> 
 using namespace std;
 class Cliente
 {
@@ -48,7 +49,6 @@ class Cliente
 	string getfechaingreso() { return fecha_ingreso; }
 
 	//CRUD
-	//Crear arreglar lo de Bit (genero)
 	void crear() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
@@ -58,7 +58,7 @@ class Cliente
 			string t = to_string(idCliente);
 			int genero_int = genero ? 1 : 0;
 			string insert = "INSERT INTO clientes(idCliente,nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) "
-				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "',genero=" + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "','" + fecha_ingreso + "')";
+				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "'," + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "','" + fecha_ingreso + "')";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -92,7 +92,8 @@ class Cliente
 					cout << "nombres: " << fila[1] << endl;
 					cout << "apellidos: " << fila[2] << endl;
 					cout << "NIT: " << fila[3] << endl;
-					cout << "genero: " << fila[4] << endl;
+					int genero = atoi(fila[4]); // Convertir la cadena de caracteres a un entero
+					cout << "genero: " << genero << endl; // Imprimir el valor del entero
 					cout << "telefono :" << fila[5] << endl;
 					cout << "correo_electronico :" << fila[6] << endl;
 					cout << "fechaingreso: " << fila[7] << endl;

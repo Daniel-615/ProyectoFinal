@@ -144,7 +144,9 @@ void C_Empleados() {
     c.crear();
 };
 void R_Empleados() {
-
+    Empleados l = Empleados();
+    l.leer();
+  
 };
 void U_Empleados() {
     int idPuesto, idEmpleado;
@@ -198,7 +200,8 @@ int main()
     //U_Puestos();
     //D_Puestos();
     //C_Empleados();
-    //U_Empleados(); corregir este
-    D_Empleados(); 
+    R_Empleados(); 
+    //U_Empleados();  
+    //D_Empleados(); 
     return 0;
 }

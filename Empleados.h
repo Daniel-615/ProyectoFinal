@@ -91,6 +91,44 @@ class Empleados
 	
 	};
 	void leer() {
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		MYSQL_ROW fila;
+		MYSQL_RES* resultado;
+		cn.abrir_conexion();
+		if (cn.getConectar()) {
+			string consulta = "select e.idEmpleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, e.genero, e.fecha_nacimiento, e.fecha_inicio_labores, e.fechaingreso, p.puesto from empleados As e inner join puestos AS p on e.idPuesto = p.idPuesto";
+			const char* x = consulta.c_str();
+			q_estado = mysql_query(cn.getConectar(), x);
+			if (!q_estado) {
+				resultado = mysql_store_result(cn.getConectar());
+				while (fila = mysql_fetch_row(resultado)) {
+					cout << "idEmpleado: " << fila[0] << endl;
+					cout << "Nombres: " << fila[1] << endl;
+					cout << "Apellidos: " << fila[2] << endl;
+					cout << "Direccion: " << fila[3] << endl;
+					cout << "Telefono: " << fila[4] << endl;
+					cout << "DPI: " << fila[5] << endl;
+					int genero = atoi(fila[6]); // Convertir la cadena de caracteres a un entero
+					cout << "Genero: " << genero << endl; 
+					cout << "Fecha Nacimiento: " << fila[7] << endl;
+					cout << "Fecha inicio Labores: " << fila[8] << endl;
+					cout << "Fecha Ingreso: " << fila[9] << endl;
+					cout << "Puesto :" << fila[10] << endl;
+					cout << "\n";
+				}
+				cout << "\n";
+				cout << "_________________________________" << endl;
+			}
+			else {
+				system("cls");
+				cout << "Query Select got problems " << mysql_error(cn.getConectar()) << endl;
+			}
+		}
+		else {
+			cout << "Error en la conexion" << endl;
+		}
+		cn.cerrar_conexion();
 
 	};
 	bool leerId() {

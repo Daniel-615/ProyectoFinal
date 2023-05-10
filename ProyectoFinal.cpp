@@ -10,7 +10,7 @@ using namespace std;
 
 //tabla Clientes
 void C_Clientes() {
-    string NIT, nombres, apellidos, telefono, correo_electronico, fechaingreso;
+    string NIT, nombres, apellidos, telefono, correo_electronico;
     int idCliente = 0;
     bool genero;
     cout << "Ingrese idCliente: ";
@@ -29,9 +29,7 @@ void C_Clientes() {
     getline(cin, telefono);
     cout << "Ingrese correo electronico: ";
     getline(cin, correo_electronico);
-    cout << "Ingrese fecha de ingreso: " << endl;
-    getline(cin, fechaingreso);
-    Cliente c = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico, fechaingreso);
+    Cliente c = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico);
     c.crear();
     system("pause");
 };
@@ -40,7 +38,7 @@ void R_Clientes() {
     l.leer();
 };
 void U_Clientes() {
-    string NIT, nombres, apellidos, telefono, correo_electronico, fechaingreso;
+    string NIT, nombres, apellidos, telefono, correo_electronico;
     int idCliente = 0;
     bool genero;
     cout << "Ingrese el idCliente que desea actualizar: " << endl;
@@ -59,9 +57,7 @@ void U_Clientes() {
     getline(cin, telefono);
     cout << "Ingrese nuevo correo electronico: " << endl;
     getline(cin, correo_electronico);
-    cout << "Ingrese nueva fecha de ingreso: ";
-    getline(cin, fechaingreso);
-    Cliente x = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico, fechaingreso);
+    Cliente x = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico);
     x.actualizar();
 
 };
@@ -113,7 +109,7 @@ void D_Puestos() {
 //Table Empleados
 void C_Empleados() {
     int idPuesto,idEmpleado;
-    string nombres,apellidos,direccion,telefono,Dpi,fechanacimiento,fecha_inicio_labores,fecha_ingreso;
+    string nombres,apellidos,direccion,telefono,Dpi,fechanacimiento,fecha_inicio_labores;
     bool genero=0;
     cout << "Ingrese el idPuesto: ";
     cin >> idPuesto;
@@ -143,9 +139,7 @@ void C_Empleados() {
     getline(cin, fechanacimiento);
     cout << "Ingrese la fecha de inicio de labores: ";
     getline(cin, fecha_inicio_labores);
-    cout << "Ingrese la fecha de ingreso: ";
-    getline(cin, fecha_ingreso);
-    Empleados c = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores,fecha_ingreso);
+    Empleados c = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores);
     c.crear();
 };
 void R_Empleados() {
@@ -155,7 +149,7 @@ void R_Empleados() {
 };
 void U_Empleados() {
     int idPuesto, idEmpleado;
-    string nombres, apellidos, direccion, telefono, Dpi, fechanacimiento, fecha_inicio_labores, fecha_ingreso;
+    string nombres, apellidos, direccion, telefono, Dpi, fechanacimiento, fecha_inicio_labores;
     bool genero = 0;
     cout << "Ingrese el idEmpleado que quiere cambiar los datos:";
     cin >> idEmpleado;
@@ -180,9 +174,7 @@ void U_Empleados() {
     getline(cin, fechanacimiento);
     cout << "Ingrese la nueva fecha de inicio de labores: ";
     getline(cin, fecha_inicio_labores);
-    cout << "Ingrese la nueva fecha de ingreso: ";
-    getline(cin, fecha_ingreso);
-    Empleados u = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores,fecha_ingreso);
+    Empleados u = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores);
     u.actualizar();
 };
 void D_Empleados() {
@@ -192,7 +184,6 @@ void D_Empleados() {
     cin.ignore();
     Empleados D = Empleados(idEmpleado);
     D.eliminar();
-    
 };
 //Table Marcas
 void C_Marcas() {
@@ -229,6 +220,65 @@ void D_Marcas() {
     Marcas D = Marcas(idMarca);
     D.eliminar();
 }
+//Table Productos
+void C_Productos() {
+    int idProducto,idMarca,existencia;
+    string producto,descripcion,imagen;
+    float precio_costo,precio_venta;
+    cout << "Ingrese idMarca: " << endl;
+    cin >> idMarca;
+    cin.ignore();
+    Productos l = Productos(idMarca, producto);
+    bool valor = l.leerId();
+    if (!valor) {
+        return;
+    }
+    cout << "Ingrese el idProducto: " << endl;
+    cin >> idProducto;
+    cin.ignore();
+    cout << "Ingrese el producto: " << endl;
+    getline(cin, producto);
+    cout << "Ingrese la descripcion: " << endl;
+    getline(cin, descripcion);
+    cout << "Ingrese la imagen: " << endl;
+    getline(cin, imagen);
+    cout << "Ingrese el precio costo: " << endl;
+    cin >> precio_costo;
+    cin.ignore();
+    cout << "Ingrese el precio venta: " << endl;
+    cin >> precio_venta;
+    cin.ignore();
+    cout << "Ingrese la existencia: " << endl;
+    cin >> existencia;
+    cin.ignore();
+    
+    Productos C = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
+    C.crear();
+};
+void R_Productos() {
+    Productos l = Productos();
+    l.leer();
+};
+void U_Productos() {
+
+};
+void D_Productos() {
+
+};
+//Table Proveedores
+void C_Proveedores() {
+
+};
+void R_Proveedores() {
+    Proveedores l = Proveedores();
+    l.leer();
+};
+void U_Proveedores() {
+
+};
+void D_Proveedores() {
+
+};
 int main()
 {
     //C_Clientes(); 
@@ -246,6 +296,10 @@ int main()
     //C_Marcas();
     //R_Marcas();
     //U_Marcas();
-    D_Marcas();
+    //D_Marcas();
+    C_Productos();
+    //R_Productos();
+    //U_Productos();
+    //D_Productos();
     return 0;
 }

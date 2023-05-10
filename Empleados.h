@@ -9,13 +9,13 @@ class Empleados
 {
 	private:
 		int idEmpleado=0, idPuesto=0;
-		string nombres, apellidos, direccion, telefono, DPI,fecha_nacimiento,fecha_inicio_labores,fechaingreso;
+		string nombres, apellidos, direccion, telefono, DPI,fecha_nacimiento,fecha_inicio_labores;
 		bool genero=0;
 	//constructor	
 	public: 
 	Empleados() {
 	};
-	Empleados(int idE, string nom,string ape,string dir, string tel,string dpi,bool g,string fecha_n, int idP,string fecha_i_l,string fecha_i) {
+	Empleados(int idE, string nom,string ape,string dir, string tel,string dpi,bool g,string fecha_n, int idP,string fecha_i_l) {
 		idEmpleado = idE;
 		nombres = nom;
 		apellidos = ape;
@@ -26,7 +26,6 @@ class Empleados
 		fecha_nacimiento = fecha_n;
 		idPuesto = idP;
 		fecha_inicio_labores =fecha_i_l;
-		fechaingreso = fecha_i;
 	}
 	Empleados(int idP,string nom) {
 		idPuesto = idP;
@@ -47,8 +46,6 @@ class Empleados
 	void setGenero(bool g) { genero = g; }
 	void setfechanacimiento(string fecha) { fecha_nacimiento; };
 	void setFecha_inicio_labores(string fecha) { fecha_inicio_labores = fecha; };
-	void setfecha_ingreso(string fecha) { fechaingreso = fecha; };
-
 	//get (obtener)
 	int getidE() { return idEmpleado; }
 	int getidP() { return idPuesto; }
@@ -60,7 +57,6 @@ class Empleados
 	bool getGenero() { return genero; }
 	string getfechanacimiento() { return fecha_nacimiento; }
 	string getFecha_inicio_l() { return fecha_inicio_labores; }
-	string getFecha_Ingreso() { return fechaingreso; }
 
 	//CRUD
 	void crear() {
@@ -72,7 +68,7 @@ class Empleados
 			string tt = to_string(idPuesto);
 			int genero_int = genero ? 1 : 0;
 			string insert = "INSERT INTO empleados(idEmpleado,nombres,apellidos,direccion,telefono,DPI,genero,fecha_nacimiento,idPuesto,fecha_inicio_labores,fechaingreso) "
-				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + direccion + "','" + telefono + "','" + DPI + "'," + to_string(genero_int) + ",'" + fecha_nacimiento + "','" + tt + "','" + fecha_inicio_labores + "','" + fechaingreso + "')";
+				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + direccion + "','" + telefono + "','" + DPI + "'," + to_string(genero_int) + ",'" + fecha_nacimiento + "','" + tt + "','" + fecha_inicio_labores + "',  NOW()  )";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -177,7 +173,7 @@ class Empleados
 			string t = to_string(idEmpleado);
 			string tt = to_string(idPuesto);
 			int genero_int = genero ? 1 : 0;
-			string update = "UPDATE empleados SET nombres='" + nombres + "',apellidos='" + apellidos + "',direccion='" + direccion + "',telefono='" + telefono + "',DPI='" + DPI + "',genero=" + to_string(genero_int) + ",fecha_nacimiento='" + fecha_nacimiento + "',idPuesto=" + tt + ",fecha_inicio_labores='" + fecha_inicio_labores + "',fechaingreso='" + fechaingreso + "' WHERE idEmpleado = '" + t + "'";
+			string update = "UPDATE empleados SET nombres='" + nombres + "',apellidos='" + apellidos + "',direccion='" + direccion + "',telefono='" + telefono + "',DPI='" + DPI + "',genero=" + to_string(genero_int) + ",fecha_nacimiento='" + fecha_nacimiento + "',idPuesto=" + tt + ",fecha_inicio_labores='" + fecha_inicio_labores + "' WHERE idEmpleado = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

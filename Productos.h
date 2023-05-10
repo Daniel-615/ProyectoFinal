@@ -9,12 +9,12 @@ class Productos
 {
 private:
 	int idProducto = 0, idMarca = 0, existencia = 0;
-	string producto, descripcion, imagen, precio_costo, precio_venta, fecha_ingreso;
+	string producto, descripcion, imagen, precio_costo, precio_venta;
 	//constructor	
 public:
 	Productos() {
 	};
-	Productos(int idP, string pro, int idM, string des, string img, string pr_c, string pr_v, int e, string fecha_i) {
+	Productos(int idP, string pro, int idM, string des, string img, string pr_c, string pr_v, int e) {
 		idProducto = idP;
 		producto = pro;
 		idMarca = idM;
@@ -23,7 +23,6 @@ public:
 		precio_costo = pr_c;
 		precio_venta = pr_v;
 		existencia = e;
-		fecha_ingreso = fecha_i;
 	}
 	Productos(int idP, string pro) {
 		idProducto = idP;
@@ -42,7 +41,6 @@ public:
 	void setprecio_costo(string pr_c) { precio_costo = pr_c; };
 	void setprecio_venta(string pr_v) { precio_venta = pr_v; };
 	void setExistencia(int e) { existencia = e; };
-	void setfecha_ingreso(string fecha_i) { fecha_ingreso = fecha_i; };
 
 	//get (obtener)
 	int getidProducto() { return idProducto; }
@@ -53,7 +51,6 @@ public:
 	string getPrecio_costo() { return precio_costo; }
 	string getPrecio_venta() { return precio_venta; }
 	int getExistencia() { return existencia; }
-	string getFecha_ingreso() { return fecha_ingreso; }
 
 
 	//CRUD
@@ -65,7 +62,7 @@ public:
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
 			string insert = "INSERT INTO productos(idProducto,producto,idMarca,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso) "
-				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" + precio_costo + "'," + precio_venta + ",'" + to_string(existencia) + "','" + fecha_ingreso + "')";
+				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" + precio_costo + "'," + precio_venta + ",'" + to_string(existencia) + "', NOW())";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -168,7 +165,7 @@ public:
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
-			string update = "UPDATE productos SET producto='" + producto + "',idMarca='" + tt + "',descripcion='" + descripcion + "',imagen='" + imagen + "',precio_costo='" + precio_costo + "',precio_venta=" + precio_venta + ",existencia='" + to_string(existencia) + "',fecha_ingreso='" + fecha_ingreso + "' WHERE idProducto = '" + t + "'";
+			string update = "UPDATE productos SET producto='" + producto + "',idMarca='" + tt + "',descripcion='" + descripcion + "',imagen='" + imagen + "',precio_costo='" + precio_costo + "',precio_venta=" + precio_venta + ",existencia='" + to_string(existencia) + "' WHERE idProducto = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

@@ -8,9 +8,8 @@
 #include "Productos.h"
 //#include "Compras.h"
 //#include "Ventas.h"
-using namespace std;
 
-//tabla Clientes
+using namespace std;
 void C_Clientes() {
     string NIT, nombres, apellidos, telefono, correo_electronico;
     int idCliente = 0;
@@ -353,21 +352,31 @@ int main()
     //R_Clientes(); 
     //U_Clientes();
     //D_Clientes();
+
     //C_Puestos();
     //R_Puestos();
     //U_Puestos();
     //D_Puestos();
+
     //C_Empleados();
     //R_Empleados(); 
     //U_Empleados();  
     //D_Empleados(); 
+
     //C_Marcas();
     //R_Marcas();
     //U_Marcas();
     //D_Marcas();
-    C_Productos();
+
+    //C_Proveedores();
+    //R_Proveedores();
+    //U_Proveedores();
+    //D_Proveedores();
+
+    //C_Productos();
     //R_Productos();
     //U_Productos();
     //D_Productos();
+    system("pause");
     return 0;
 }

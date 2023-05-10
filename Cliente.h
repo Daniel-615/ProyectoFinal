@@ -10,12 +10,12 @@ class Cliente
 	private:
 		int idCliente=0;
 		bool genero=0;
-		string nombres, apellidos, Nit,telefono,correo_electronico,fecha_ingreso;
+		string nombres, apellidos, Nit,telefono,correo_electronico;
 	//constructor
 	public:
 	Cliente() {
 	};
-	Cliente(int id, string nom, string ape, string n, bool g,string phone, string correo, string fecha) {
+	Cliente(int id, string nom, string ape, string n, bool g,string phone, string correo) {
 		idCliente = id;
 		nombres = nom;
 		apellidos= ape;
@@ -23,7 +23,6 @@ class Cliente
 		genero = g;
 		telefono = phone;
 		correo_electronico = correo;
-		fecha_ingreso = fecha;
 	};
 	Cliente(int id) {
 		idCliente = id;
@@ -37,7 +36,6 @@ class Cliente
 	void setGenero(bool g) { genero = g; }
 	void setTelefono(string phone) { telefono = phone; }
 	void setCorreo_electronico(string correo) { correo_electronico = correo; }
-	void setfechaingreso(string fecha) { fecha_ingreso = fecha; }
 	//get (obtener)
 	int getidCliente() { return idCliente; }
 	string getNombres() { return nombres; }
@@ -46,7 +44,7 @@ class Cliente
 	bool getGenero() { return genero; }
 	string getTelefono() { return telefono; }
 	string getCorreo_electronico() { return correo_electronico; }
-	string getfechaingreso() { return fecha_ingreso; }
+
 
 	//CRUD
 	void crear() {
@@ -58,7 +56,7 @@ class Cliente
 			string t = to_string(idCliente);
 			int genero_int = genero ? 1 : 0;
 			string insert = "INSERT INTO clientes(idCliente,nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) "
-				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "'," + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "','" + fecha_ingreso + "')";
+				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "'," + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "', NOW())";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -120,7 +118,7 @@ class Cliente
 		if (cn.getConectar()) {
 			string t = to_string(idCliente);
 			int genero_int = genero ? 1 : 0;
-			string update = "UPDATE clientes SET nombres='" + nombres + "',apellidos='" + apellidos + "',NIT='" + Nit + "',genero=" + to_string(genero_int) + ",telefono='" + telefono + "',correo_electronico='" + correo_electronico + "',fechaingreso='" + fecha_ingreso + "' WHERE idCliente = '" + t + "'";
+			string update = "UPDATE clientes SET nombres='" + nombres + "',apellidos='" + apellidos + "',NIT='" + Nit + "',genero=" + to_string(genero_int) + ",telefono='" + telefono + "',correo_electronico='" + correo_electronico + "' WHERE idCliente = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

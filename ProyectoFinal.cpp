@@ -3,6 +3,9 @@
 #include "Cliente.h"
 #include "Puestos.h"
 #include "Empleados.h"
+#include "Proveedores.h"
+#include "Marcas.h"
+#include "Productos.h"
 using namespace std;
 
 //tabla Clientes
@@ -106,6 +109,8 @@ void D_Puestos() {
     Puestos D = Puestos(idPuesto);
     D.eliminar();
 };
+
+//Table Empleados
 void C_Empleados() {
     int idPuesto,idEmpleado;
     string nombres,apellidos,direccion,telefono,Dpi,fechanacimiento,fecha_inicio_labores,fecha_ingreso;
@@ -189,6 +194,41 @@ void D_Empleados() {
     D.eliminar();
     
 };
+//Table Marcas
+void C_Marcas() {
+    int idMarca;
+    string marca;
+    cout << "Ingrese el idMarca: " << endl;
+    cin >> idMarca;
+    cin.ignore();
+    cout << "Ingrese la marca: " << endl;
+    getline(cin, marca);
+    Marcas C = Marcas(idMarca, marca);
+    C.crear();
+};
+void R_Marcas() {
+    Marcas l = Marcas();
+    l.leer();
+};
+void U_Marcas() {
+    int idMarca;
+    string marca;
+    cout << "Ingrese el idMarca a buscar: " << endl;
+    cin >> idMarca;
+    cin.ignore();
+    cout << "Ingrese la nueva marca: " << endl;
+    getline(cin, marca);
+    Marcas U = Marcas(idMarca, marca);
+    U.actualizar();
+};
+void D_Marcas() {
+    int idMarca = 0;
+    cout << "Ingrese el idMarca a eliminar: " << endl;
+    cin >> idMarca;
+    cin.ignore();
+    Marcas D = Marcas(idMarca);
+    D.eliminar();
+}
 int main()
 {
     //C_Clientes(); 
@@ -200,8 +240,12 @@ int main()
     //U_Puestos();
     //D_Puestos();
     //C_Empleados();
-    R_Empleados(); 
+    //R_Empleados(); 
     //U_Empleados();  
     //D_Empleados(); 
+    //C_Marcas();
+    //R_Marcas();
+    //U_Marcas();
+    D_Marcas();
     return 0;
 }

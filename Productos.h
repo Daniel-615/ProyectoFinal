@@ -45,16 +45,15 @@ class Productos
 	void setfecha_ingreso(string fecha_i){ fecha_ingreso= fecha_i;};
     
 	//get (obtener)
-	int getidProducto(){return idProducto}
+	int getidProducto(){return idProducto;}
     string geProducto(){ return producto;}
-	int getidMarca(){return idMarca}
+	int getidMarca(){return idMarca;}
     string getDescripcion(){ return descripcion;}
     string getImagen(){ return imagen;}
     string getPrecio_costo(){ return precio_costo;}
     string getPrecio_venta(){ return precio_venta;}
-	int getExistencia(){return existencia}
+	int getExistencia(){return existencia;}
     string getFecha_ingreso(){ return fecha_ingreso;}
-    
 
 	//CRUD
 	void crear() {
@@ -90,7 +89,6 @@ class Productos
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-        //  string consulta = "select e.idEmpleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, e.genero, e.fecha_nacimiento, e.fecha_inicio_labores, e.fechaingreso, p.puesto from empleados As e inner join puestos AS p on e.idPuesto = p.idPuesto";
 			string consulta = "select p.idProducto, p.producto, p.descripcion, p.imagen, p.precio_costo, p.precio_venta,p.existencia, p.fecha_ingreso, m.marcas from productos As p inner join marcas AS m on p.idMarca = m.idMarca";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
@@ -168,7 +166,7 @@ class Productos
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
-			string update = "UPDATE productos SET producto='" +producto + "',idMarca='" +idMarca + "',descripcion='" +descripcion + "',imagen='" +imagen + "',precio_costo='" + precio_costo + "',precio_venta=" +precio_venta + ",existencia='" + to_string(existencia) + "',fecha_ingreso='" + fecha_ingreso + "' WHERE idProducto = '" + t + "'";
+			string update = "UPDATE productos SET producto='" +producto + "',idMarca='" +tt + "',descripcion='" +descripcion + "',imagen='" +imagen + "',precio_costo='" + precio_costo + "',precio_venta=" +precio_venta + ",existencia='" + to_string(existencia) + "',fecha_ingreso='" + fecha_ingreso + "' WHERE idProducto = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

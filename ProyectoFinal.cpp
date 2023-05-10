@@ -6,6 +6,8 @@
 #include "Proveedores.h"
 #include "Marcas.h"
 #include "Productos.h"
+//#include "Compras.h"
+//#include "Ventas.h"
 using namespace std;
 
 //tabla Clientes
@@ -221,20 +223,20 @@ void D_Marcas() {
     D.eliminar();
 }
 //Table Productos
-void C_Productos() {
+void C_Productos() { //CORREGIR
     int idProducto,idMarca,existencia;
     string producto,descripcion,imagen;
     float precio_costo,precio_venta;
-    cout << "Ingrese idMarca: " << endl;
-    cin >> idMarca;
+    cout << "Ingrese el idProducto: " << endl;
+    cin >> idProducto;
     cin.ignore();
-    Productos l = Productos(idMarca, producto);
+    Productos l = Productos(idProducto, producto);
     bool valor = l.leerId();
     if (!valor) {
         return;
     }
-    cout << "Ingrese el idProducto: " << endl;
-    cin >> idProducto;
+    cout << "Ingrese idMarca: " << endl;
+    cin >> idMarca;
     cin.ignore();
     cout << "Ingrese el producto: " << endl;
     getline(cin, producto);
@@ -259,25 +261,91 @@ void R_Productos() {
     Productos l = Productos();
     l.leer();
 };
-void U_Productos() {
-
+void U_Productos() { 
+    int idProducto,idMarca,existencia;
+    string producto,descripcion,imagen;
+    float precio_costo,precio_venta;
+    cout << "Ingrese el idProducto que desea actualizar:";
+    cin >> idProducto;
+    cin.ignore();
+    cout << "Ingrese nuevo Producto: ";
+    getline(cin, producto);
+    cout << "Ingrese nuevo idMarca: ";
+    cin>> idMarca;
+    cin.ignore();
+    cout << "Ingrese nueva descripcion : ";
+    getline(cin, descripcion);
+    cout << "Ingrese nueva imagen : ";
+    getline(cin, imagen);
+    cout << "Ingrese precio_costo: ";
+    getline(cin, precio_costo);
+    cout << "Ingrese precio_venta: ";
+    getline(cin, precio_venta);
+    cout << "Ingrese nueva existencia: ";
+    cin >> existencia;
+    cin.ignore();
+    
+    Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
+    u.actualizar();
 };
 void D_Productos() {
-
+    int idProducto = 0;
+    cout << "Ingrese el idProducto a eliminar: " << endl;
+    cin >> idProducto;
+    cin.ignore();
+    Productos d = Productos(idProducto);
+    d.eliminar();
 };
 //Table Proveedores
 void C_Proveedores() {
+    int idProveedore ;
+    string proveedor,nit,direccion,telefono;
 
+    cout << "Ingrese idProveedore: ";
+    cin >> idProveedore;
+    cin.ignore();
+    cout << "Ingrese Proveedor: ";
+    getline(cin, proveedor);
+    cout << "Ingrese NIT: ";
+    getline(cin, nit);
+    cout << "Ingrese Direccion: ";
+    getline(cin, direccion);
+    cout << "Ingrese telefono: ";
+    getline(cin, telefono);
+
+Proveedores c = Proveedores();
+    c.crear();
 };
 void R_Proveedores() {
-    Proveedores l = Proveedores();
-    l.leer();
+    Proveedores r = Proveedores();
+    r.leer();
 };
 void U_Proveedores() {
+    int idProveedore ;
+    string proveedor,nit,direccion,telefono;
 
+    cout << "Ingrese el idProveedore que desea actualizar: ";
+    cin >> idProveedore;
+    cin.ignore();
+    cout << "Ingrese Nuevo Proveedor: ";
+    getline(cin, proveedor);
+    cout << "Ingrese Nuevo NIT: ";
+    getline(cin, nit);
+    cout << "Ingrese NuevaDireccion: ";
+    getline(cin, direccion);
+    cout << "Ingrese telefono: ";
+    getline(cin, telefono);
+
+    Proveedores u = Proveedores();
+    u.actualizar();
 };
 void D_Proveedores() {
-
+int idProveedore = 0;
+    cout << "Ingrese el idProveedore a eliminar:" << endl;
+    cin >> idProveedore;
+    cin.ignore();
+    Proveedores d = Proveedores();
+    d.eliminar();
 };
 int main()
 {

@@ -6,8 +6,7 @@
 #include "Proveedores.h"
 #include "Marcas.h"
 #include "Productos.h"
-//#include "Compras.h"
-//#include "Ventas.h"
+#include "ventas_detalle.h"
 
 using namespace std;
 void C_Clientes() {
@@ -323,7 +322,7 @@ void U_Proveedores() {
   int idProveedore;
   string proveedor, nit, direccion, telefono;
 
-  cout << "Ingrese el idProveedore que desea actualizar: ";
+  cout << "Ingrese el idProveedor que desea actualizar: ";
   cin >> idProveedore;
   cin.ignore();
   cout << "Ingrese Nuevo Proveedor: ";
@@ -340,34 +339,19 @@ void U_Proveedores() {
 };
 void D_Proveedores() {
   int idProveedore = 0;
-  cout << "Ingrese el idProveedore a eliminar:" << endl;
+  cout << "Ingrese el idProveedor a eliminar:" << endl;
   cin >> idProveedore;
   cin.ignore();
   Proveedores d = Proveedores(idProveedore);
   d.eliminar();
 };
+void C_ventas_detalle() {
 
-void CRUD() {
-  int opcion = 0;
-  char opc;
-  do {
-    switch (opcion) {
-    case 1:
-      break;
-    case 2:
-      break;
-    case 3:
-      break;
-    case 4:
-      break;
-
-    default:
-      break;
-    }
-
-  } while (opc = 's' | opc = 'S');
-
-}
+};
+void R_ventas_detalle() {
+  Ventas_detalle r = Ventas_detalle();
+  r.leer();
+};
 
 int main() {
   char opc;
@@ -404,7 +388,7 @@ int main() {
     case 5: //Proveedores
       //C_Proveedores();
       //R_Proveedores();
-      //U_Proveedores();
+      //U_Proveedores(); //ARREGLAR ESTE
       //D_Proveedores();
       break;
     case 6: //Productos
@@ -420,10 +404,10 @@ int main() {
       //D_Compras();       
       break;
     case 8: //Ventas
-      //C_Ventas();
-      //R_Ventas();
-      //U_Ventas();
-      //D_Ventas();       
+      //C_ventas_detalle();
+      //R_ventas_detalle();
+      //U_ventas_detalle();
+      //D_ventas_detalle();
       break;
     default:
       break;

@@ -6,8 +6,7 @@
 #include "Proveedores.h"
 #include "Marcas.h"
 #include "Productos.h"
-//#include "Compras.h"
-//#include "Ventas.h"
+#include "ventas_detalle.h"
 
 using namespace std;
 void C_Clientes() {
@@ -323,7 +322,7 @@ void U_Proveedores() {
     int idProveedore;
     string proveedor, nit, direccion, telefono;
 
-    cout << "Ingrese el idProveedore que desea actualizar: ";
+    cout << "Ingrese el idProveedor que desea actualizar: ";
     cin >> idProveedore;
     cin.ignore();
     cout << "Ingrese Nuevo Proveedor: ";
@@ -340,11 +339,18 @@ void U_Proveedores() {
 };
 void D_Proveedores() {
     int idProveedore = 0;
-    cout << "Ingrese el idProveedore a eliminar:" << endl;
+    cout << "Ingrese el idProveedor a eliminar:" << endl;
     cin >> idProveedore;
     cin.ignore();
     Proveedores d = Proveedores(idProveedore);
     d.eliminar();
+};
+void C_ventas_detalle() {
+
+};
+void R_ventas_detalle() {
+    Ventas_detalle r = Ventas_detalle();
+    r.leer();
 };
 int main()
 {
@@ -370,13 +376,16 @@ int main()
 
     //C_Proveedores();
     //R_Proveedores();
-    U_Proveedores();
+    //U_Proveedores(); //corregir este
     //D_Proveedores();
 
     //C_Productos();
     //R_Productos();
     //U_Productos();
     //D_Productos();
+
+    //C_ventas_detalle();
+    R_ventas_detalle();
     system("pause");
     return 0;
 }

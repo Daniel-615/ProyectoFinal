@@ -311,7 +311,7 @@ void C_Proveedores() {
     cout << "Ingrese telefono: ";
     getline(cin, telefono);
 
-    Proveedores c = Proveedores(idProveedore,proveedor,nit,direccion,telefono);
+    Proveedores c = Proveedores(idProveedore, proveedor, nit, direccion, telefono);
     c.crear();
 };
 void R_Proveedores() {
@@ -346,46 +346,133 @@ void D_Proveedores() {
     d.eliminar();
 };
 void C_ventas_detalle() {
+    //Variables Venta
+    int idVenta = 0, no_factura=0,idcliente=0,idempleado=0;
+    char serie = ' ';
+    string fechafactura;
+    //Variables venta detalle
+    int idproducto=0, idventa = 0, idventa_detalle= 0;
+    string cantidad;
+    float precio_unitario = 0;
+    cout << "Ingrese idCliente: " << endl;
+    cin >> idcliente;
+    cin.ignore();
+    Ventas_detalle VC = Ventas_detalle(idcliente,idVenta);
+    bool valClientes=VC.leerIdClientes();
+    //llamar constructor
+    cout << "Ingrese idEmpleado: " << endl;
+    cin >> idempleado;
+    cin.ignore();
+    Ventas_detalle VE = Ventas_detalle(idempleado, no_factura, serie);
+    bool valEmpleados=VE.leerIdEmpleados();
+    
+    cout << "Ingrese idProducto: " << endl;
+    cin >> idproducto;
+    cin.ignore();
+    Ventas_detalle VP = Ventas_detalle(idproducto, idventa, idventa_detalle, cantidad);
+    bool valProducto = VP.leerIdProductos();
 
+    cout << "Ingrese idVentas: " << endl;
+    cin >> idVenta;
+    cin.ignore();
+    Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
+    bool valVentas = VV.leerIdVentas();
+
+    //condicion
+    if (!valClientes || !valEmpleados || !valProducto ){
+        return;
+    }
+
+    cout << "Ingrese el Numero Factura: " << endl;
+    cin >> no_factura;
+    cin.ignore();
+    cout << "Ingrese la serie (recuerde que este es solo un caracter)" << endl;
+    cin >> serie;
+    cin.ignore();
+    cout << "Ingrese la fecha de la factura: " << endl;
+    getline(cin, fechafactura);
+    cin.ignore();
+    cout << "Ingrese el idventa_detalle: " << endl;
+    cin >> idventa_detalle;
+    cin.ignore();
+    cout << "Ingrese la cantidad: " << endl;
+    getline(cin, cantidad);
+    cout << "Ingrese el precio unitario" << endl;
+    cin >> precio_unitario;
+    cin.ignore();
+
+    //pasos para crearla
+    Ventas_detalle C = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
+    C.crear();
 };
 void R_ventas_detalle() {
     Ventas_detalle r = Ventas_detalle();
     r.leer();
 };
-int main()
-{
-    //C_Clientes(); 
-    //R_Clientes(); 
-    //U_Clientes();
-    //D_Clientes();
 
-    //C_Puestos();
-    //R_Puestos();
-    //U_Puestos();
-    //D_Puestos();
+int main() {
+    char opc;
+    int opcion = 0;
+    do {
+        cout << "Bienvenido al Menu Fase I - Proyecto final." << endl;
+        cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores 6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle" << endl;
+        cin >> opcion;
+        switch (opcion) {
+        case 1: //Clientes
+            //C_Clientes(); 
+            //R_Clientes(); 
+            //U_Clientes();
+            //D_Clientes();
+            break;
+        case 2: //Puestos
+            //C_Puestos();
+            //R_Puestos();
+            //U_Puestos();
+            //D_Puestos();
+            break;
+        case 3: //Empleados
+            //C_Empleados();
+            //R_Empleados(); 
+            //U_Empleados();  
+            //D_Empleados(); 
+            break;
+        case 4: //Marcas
+            //C_Marcas();
+            //R_Marcas();
+            //U_Marcas();
+            //D_Marcas();
+            break;
+        case 5: //Proveedores
+            //C_Proveedores();
+            //R_Proveedores();
+            //U_Proveedores(); //ARREGLAR ESTE
+            //D_Proveedores();
+            break;
+        case 6: //Productos
+            //C_Productos();
+            //R_Productos();
+            //U_Productos();
+            //D_Productos();        
+            break;
+        case 7: //Compras
+            //C_Compras();
+            //R_Compras();
+            //U_Compras();
+            //D_Compras();       
+            break;
+        case 8: //Ventas
+            C_ventas_detalle();
+            //R_ventas_detalle();
+            //U_ventas_detalle();
+            //D_ventas_detalle();
+            break;
+        default:
+            break;
+        }
+        cout << "Desea continuar? (s/n)";
+        cin >> opc;
+    } while (opc == 's' || opc == 'S');
 
-    //C_Empleados();
-    //R_Empleados(); 
-    //U_Empleados();  
-    //D_Empleados(); 
-
-    //C_Marcas();
-    //R_Marcas();
-    //U_Marcas();
-    //D_Marcas();
-
-    //C_Proveedores();
-    //R_Proveedores();
-    //U_Proveedores(); //corregir este
-    //D_Proveedores();
-
-    //C_Productos();
-    //R_Productos();
-    //U_Productos();
-    //D_Productos();
-
-    //C_ventas_detalle();
-    R_ventas_detalle();
     system("pause");
     return 0;
 }

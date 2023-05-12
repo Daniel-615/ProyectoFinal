@@ -69,11 +69,11 @@ void D_Clientes() {
     cin.ignore();
     Cliente d = Cliente(idCliente);
     d.eliminar();
-}; 
+};
 
 //tabla Puestos
 void C_Puestos() {
-    int idPuesto = 0; 
+    int idPuesto = 0;
     string puesto;
     cout << "Ingrese el idPuesto: " << endl;
     cin >> idPuesto;
@@ -95,7 +95,7 @@ void U_Puestos() {
     cin.ignore();
     cout << "Ingrese el nuevo puesto: " << endl;
     getline(cin, puesto);
-    Puestos U = Puestos(idPuesto,puesto);
+    Puestos U = Puestos(idPuesto, puesto);
     U.actualizar();
 };
 void D_Puestos() {
@@ -109,16 +109,16 @@ void D_Puestos() {
 
 //Table Empleados
 void C_Empleados() {
-    int idPuesto,idEmpleado;
-    string nombres,apellidos,direccion,telefono,Dpi,fechanacimiento,fecha_inicio_labores;
-    bool genero=0;
+    int idPuesto, idEmpleado;
+    string nombres, apellidos, direccion, telefono, Dpi, fechanacimiento, fecha_inicio_labores;
+    bool genero = 0;
     cout << "Ingrese el idPuesto: ";
     cin >> idPuesto;
     cin.ignore();
-    Empleados l = Empleados(idPuesto,nombres);
-    bool valor=l.leerId();
+    Empleados l = Empleados(idPuesto, nombres);
+    bool valor = l.leerId();
     if (!valor) {
-        return; 
+        return;
     }
     cout << "Ingrese el idEmpleado:";
     cin >> idEmpleado;
@@ -140,13 +140,13 @@ void C_Empleados() {
     getline(cin, fechanacimiento);
     cout << "Ingrese la fecha de inicio de labores: ";
     getline(cin, fecha_inicio_labores);
-    Empleados c = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores);
+    Empleados c = Empleados(idEmpleado, nombres, apellidos, direccion, telefono, Dpi, genero, fechanacimiento, idPuesto, fecha_inicio_labores);
     c.crear();
 };
 void R_Empleados() {
     Empleados l = Empleados();
     l.leer();
-  
+
 };
 void U_Empleados() {
     int idPuesto, idEmpleado;
@@ -175,7 +175,7 @@ void U_Empleados() {
     getline(cin, fechanacimiento);
     cout << "Ingrese la nueva fecha de inicio de labores: ";
     getline(cin, fecha_inicio_labores);
-    Empleados u = Empleados(idEmpleado,nombres,apellidos,direccion,telefono,Dpi,genero,fechanacimiento,idPuesto,fecha_inicio_labores);
+    Empleados u = Empleados(idEmpleado, nombres, apellidos, direccion, telefono, Dpi, genero, fechanacimiento, idPuesto, fecha_inicio_labores);
     u.actualizar();
 };
 void D_Empleados() {
@@ -223,19 +223,19 @@ void D_Marcas() {
 }
 //Table Productos
 void C_Productos() { //CORREGIR
-    int idProducto,idMarca,existencia;
-    string producto,descripcion,imagen;
-    float precio_costo,precio_venta;
-    cout << "Ingrese el idProducto: " << endl;
-    cin >> idProducto;
+    int idProducto, idMarca, existencia;
+    string producto, descripcion, imagen;
+    float precio_costo, precio_venta;
+    cout << "Ingrese el idMarca a comprobar si existe: " << endl;
+    cin >> idMarca;
     cin.ignore();
-    Productos l = Productos(idProducto, producto);
+    Productos l = Productos(idMarca, producto);
     bool valor = l.leerId();
     if (!valor) {
         return;
     }
-    cout << "Ingrese idMarca: " << endl;
-    cin >> idMarca;
+    cout << "Ingrese idProducto: " << endl;
+    cin >> idProducto;
     cin.ignore();
     cout << "Ingrese el producto: " << endl;
     getline(cin, producto);
@@ -252,7 +252,7 @@ void C_Productos() { //CORREGIR
     cout << "Ingrese la existencia: " << endl;
     cin >> existencia;
     cin.ignore();
-    
+
     Productos C = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
     C.crear();
 };
@@ -260,30 +260,30 @@ void R_Productos() {
     Productos l = Productos();
     l.leer();
 };
-void U_Productos() { 
-    int idProducto,idMarca,existencia;
-    string producto,descripcion,imagen;
-    float precio_costo,precio_venta;
+void U_Productos() {
+    int idProducto, idMarca, existencia;
+    string producto, descripcion, imagen;
+    float precio_costo, precio_venta;
     cout << "Ingrese el idProducto que desea actualizar:";
     cin >> idProducto;
     cin.ignore();
     cout << "Ingrese nuevo Producto: ";
     getline(cin, producto);
     cout << "Ingrese nuevo idMarca: ";
-    cin>> idMarca;
+    cin >> idMarca;
     cin.ignore();
     cout << "Ingrese nueva descripcion : ";
     getline(cin, descripcion);
     cout << "Ingrese nueva imagen : ";
     getline(cin, imagen);
     cout << "Ingrese precio_costo: ";
-    getline(cin, precio_costo);
+    cin >> precio_costo;
     cout << "Ingrese precio_venta: ";
-    getline(cin, precio_venta);
+    cin >> precio_venta;
     cout << "Ingrese nueva existencia: ";
     cin >> existencia;
     cin.ignore();
-    
+
     Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
     u.actualizar();
 };
@@ -297,10 +297,10 @@ void D_Productos() {
 };
 //Table Proveedores
 void C_Proveedores() {
-    int idProveedore ;
-    string proveedor,nit,direccion,telefono;
+    int idProveedore;
+    string proveedor, nit, direccion, telefono;
 
-    cout << "Ingrese idProveedore: ";
+    cout << "Ingrese idProveedor: ";
     cin >> idProveedore;
     cin.ignore();
     cout << "Ingrese Proveedor: ";
@@ -312,7 +312,7 @@ void C_Proveedores() {
     cout << "Ingrese telefono: ";
     getline(cin, telefono);
 
-Proveedores c = Proveedores();
+    Proveedores c = Proveedores(idProveedore,proveedor,nit,direccion,telefono);
     c.crear();
 };
 void R_Proveedores() {
@@ -320,8 +320,8 @@ void R_Proveedores() {
     r.leer();
 };
 void U_Proveedores() {
-    int idProveedore ;
-    string proveedor,nit,direccion,telefono;
+    int idProveedore;
+    string proveedor, nit, direccion, telefono;
 
     cout << "Ingrese el idProveedore que desea actualizar: ";
     cin >> idProveedore;
@@ -339,11 +339,11 @@ void U_Proveedores() {
     u.actualizar();
 };
 void D_Proveedores() {
-int idProveedore = 0;
+    int idProveedore = 0;
     cout << "Ingrese el idProveedore a eliminar:" << endl;
     cin >> idProveedore;
     cin.ignore();
-    Proveedores d = Proveedores();
+    Proveedores d = Proveedores(idProveedore);
     d.eliminar();
 };
 int main()
@@ -370,7 +370,7 @@ int main()
 
     //C_Proveedores();
     //R_Proveedores();
-    //U_Proveedores();
+    U_Proveedores();
     //D_Proveedores();
 
     //C_Productos();

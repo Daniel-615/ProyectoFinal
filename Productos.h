@@ -9,12 +9,13 @@ class Productos
 {
 private:
 	int idProducto = 0, idMarca = 0, existencia = 0;
-	string producto, descripcion, imagen, precio_costo, precio_venta;
+	string producto, descripcion, imagen;
+	float precio_venta,precio_costo;
 	//constructor	
 public:
 	Productos() {
 	};
-	Productos(int idP, string pro, int idM, string des, string img, string pr_c, string pr_v, int e) {
+	Productos(int idP, string pro, int idM, string des, string img, float pr_c, float pr_v, int e) {
 		idProducto = idP;
 		producto = pro;
 		idMarca = idM;
@@ -24,12 +25,12 @@ public:
 		precio_venta = pr_v;
 		existencia = e;
 	}
-	Productos(int idP, string pro) {
-		idProducto = idP;
+	Productos(int idM, string pro) {
+		idMarca = idM;
 		producto = pro;
 	};
-	Productos(int idM) {
-		idMarca = idM;
+	Productos(int idP) {
+		idProducto = idP;
 	};
 	//metodos
 	//set (modificar)
@@ -38,8 +39,8 @@ public:
 	void setidMarca(int idM) { idMarca = idM; };
 	void setdescripcion(string des) { descripcion = des; };
 	void setimagen(string img) { imagen = img; };
-	void setprecio_costo(string pr_c) { precio_costo = pr_c; };
-	void setprecio_venta(string pr_v) { precio_venta = pr_v; };
+	void setprecio_costo(float pr_c) { precio_costo = pr_c; };
+	void setprecio_venta(float pr_v) { precio_venta = pr_v; };
 	void setExistencia(int e) { existencia = e; };
 
 	//get (obtener)
@@ -48,8 +49,8 @@ public:
 	int getidMarca() { return idMarca; }
 	string getDescripcion() { return descripcion; }
 	string getImagen() { return imagen; }
-	string getPrecio_costo() { return precio_costo; }
-	string getPrecio_venta() { return precio_venta; }
+	float getPrecio_costo() { return precio_costo; }
+	float getPrecio_venta() { return precio_venta; }
 	int getExistencia() { return existencia; }
 
 
@@ -61,8 +62,10 @@ public:
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
+			string ttt = to_string(precio_costo);
+			string tttt = to_string(precio_venta);
 			string insert = "INSERT INTO productos(idProducto,producto,idMarca,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso) "
-				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" + precio_costo + "'," + precio_venta + ",'" + to_string(existencia) + "', NOW())";
+				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" + ttt + "'," + tttt + ",'" + to_string(existencia) + "', NOW())";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -87,8 +90,7 @@ public:
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			//  string consulta = "select e.idEmpleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, e.genero, e.fecha_nacimiento, e.fecha_inicio_labores, e.fechaingreso, p.puesto from empleados As e inner join puestos AS p on e.idPuesto = p.idPuesto";
-			string consulta = "select p.idProducto, p.producto, p.descripcion, p.imagen, p.precio_costo, p.precio_venta,p.existencia, p.fecha_ingreso, m.marcas from productos As p inner join marcas AS m on p.idMarca = m.idMarca";
+			string consulta = "SELECT p.idProducto, p.producto, p.descripcion, p.imagen, p.precio_costo, p.precio_venta,p.existencia, p.fecha_ingreso, m.idmarca,m.marca from productos As p inner join marcas AS m on p.idMarca = m.idMarca";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
@@ -103,6 +105,7 @@ public:
 					cout << "Existencia: " << fila[6] << endl;
 					cout << "Fecha Ingreso: " << fila[7] << endl;
 					cout << "idMarca: " << fila[8] << endl;
+					cout << "Marca: " << fila[9] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
@@ -126,19 +129,19 @@ public:
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string t = to_string(idProducto);
-			string consulta = "SELECT *FROM productos  WHERE idProducto = '" + t + "'";
+			string t = to_string(idMarca);
+			string consulta = "SELECT *FROM marcas  WHERE idmarca = '" + t + "'";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
-					cout << "No se encontraron resultados con el idProducto: " << t << endl;
+					cout << "No se encontraron resultados con el idMarca: " << t << endl;
 					return false;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "idProducto: " << fila[0] << endl;
-					cout << "Producto: " << fila[1] << endl;
+					cout << "idMarca: " << fila[0] << endl;
+					cout << "Marca: " << fila[1] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
@@ -165,7 +168,9 @@ public:
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
-			string update = "UPDATE productos SET producto='" + producto + "',idMarca='" + tt + "',descripcion='" + descripcion + "',imagen='" + imagen + "',precio_costo='" + precio_costo + "',precio_venta=" + precio_venta + ",existencia='" + to_string(existencia) + "' WHERE idProducto = '" + t + "'";
+			string ttt = to_string(precio_costo);
+			string tttt = to_string(precio_venta);
+			string update = "UPDATE productos SET producto='" + producto + "',idMarca='" + tt + "',descripcion='" + descripcion + "',imagen='" + imagen + "',precio_costo='" + ttt + "',precio_venta=" + tttt + ",existencia='" + to_string(existencia) + "' WHERE idProducto = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

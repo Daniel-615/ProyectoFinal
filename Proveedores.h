@@ -6,7 +6,7 @@
 
 class Proveedores
 {
-	//idProveedore, proveedor, nit, direccion, telefono
+	
 private:
 	int idProveedore;
 	string proveedor, nit, direccion, telefono;
@@ -148,4 +148,3 @@ public:
 	};
 
 };
-

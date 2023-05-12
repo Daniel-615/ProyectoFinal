@@ -3,7 +3,6 @@
 #include <mysql.h>
 #include "ConexionBD.h"
 #include <string>
-#include <cstdlib> 
 using namespace std;
 class Cliente
 {
@@ -80,7 +79,7 @@ class Cliente
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string consulta = "SELECT *FROM clientes";
+			string consulta = "SELECT idCliente, nombres,apellidos,NIT,telefono,correo_electronico,fechaingreso, CASE WHEN genero = 0 THEN 'masculino' WHEN genero = 1 THEN 'femenino' END AS genero FROM clientes";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
@@ -90,11 +89,10 @@ class Cliente
 					cout << "nombres: " << fila[1] << endl;
 					cout << "apellidos: " << fila[2] << endl;
 					cout << "NIT: " << fila[3] << endl;
-					int genero = atoi(fila[4]); // Convertir la cadena de caracteres a un entero
-					cout << "genero: " << genero << endl; // Imprimir el valor del entero
-					cout << "telefono :" << fila[5] << endl;
-					cout << "correo_electronico :" << fila[6] << endl;
-					cout << "fechaingreso: " << fila[7] << endl;
+					cout << "genero: " << fila[7] << endl; 
+					cout << "telefono :" << fila[4] << endl;
+					cout << "correo_electronico :" << fila[5] << endl;
+					cout << "fechaingreso: " << fila[6] << endl;
 					cout << "\n";
 				}
 				cout << "\n";

@@ -86,7 +86,7 @@ public:
 					cout << "idVenta_detalle:  " << fila[0] << endl;
 					cout << "Cantidad: " << fila[1] << endl;
 					cout << "precio_unitario: " << fila[2] << endl;
-					cout << "total" << fila[3] << endl;
+					cout << "total: " << fila[3] << endl;
 					cout << "___________Ventas___________" << endl;
 					cout << "idVenta: " << fila[4] << endl;
 					cout << "Numero Factura: " << fila[5] << endl;

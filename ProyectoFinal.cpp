@@ -379,7 +379,7 @@ void C_ventas_detalle() {
     bool valVentas = VV.leerIdVentas();
 
     //condicion
-    if (!valClientes || !valEmpleados || !valProducto ){
+    if (!valClientes || !valEmpleados || !valProducto ||!valVentas){
         return;
     }
 
@@ -461,8 +461,8 @@ int main() {
             //D_Compras();       
             break;
         case 8: //Ventas
-            C_ventas_detalle();
-            //R_ventas_detalle();
+            //C_ventas_detalle();
+            R_ventas_detalle();
             //U_ventas_detalle();
             //D_ventas_detalle();
             break;

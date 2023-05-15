@@ -465,12 +465,11 @@ void D_ventas_detalle() {
 };
 
 void C_Compras() {
-//Variables Compras
+    //Variables Compras
     int idCompra = 0, no_orden_compra = 0, idProveedor = 0;
     string fecha_orden;
     //Variables Compras detalle
-    int idproducto = 0, idcompra = 0, idcompra_detalle = 0;
-    string cantidad;
+    int idproducto = 0, idcompra = 0, idcompra_detalle = 0,cantidad=0;
     float precio_costo_unitario = 0;
     cout << "Ingrese idProveedor: " << endl;
     cin >> idProveedor;
@@ -481,14 +480,14 @@ void C_Compras() {
     cout << "Ingrese idProducto: " << endl;
     cin >> idproducto;
     cin.ignore();
-    Ventas_detalle VP = Ventas_detalle(idproducto, idCompra, idcompra_detalle, cantidad);
+    Compras VP = Compras(idproducto, idCompra, idcompra_detalle, cantidad);
     bool valProducto = VP.leerIdProductos();
 
     cout << "Ingrese idCompras: " << endl;
     cin >> idCompra;
     cin.ignore();
-     
-    if (!valProveedor|| !valProducto) {
+
+    if (!valProveedor || !valProducto) {
         return;
     }
 
@@ -502,12 +501,13 @@ void C_Compras() {
     cin >> idcompra_detalle;
     cin.ignore();
     cout << "Ingrese la cantidad: " << endl;
-    getline(cin, cantidad);
+    cin >> cantidad;
+    cin.ignore();
     cout << "Ingrese el precio costo unitario" << endl;
     cin >> precio_costo_unitario;
     cin.ignore();
 
-    Compras C = Compras(idCompra,no_orden_compra,idProveedor,fecha_orden,idcompra_detalle,idcompra, idproducto, cantidad, precio_costo_unitario);
+    Compras C = Compras(idCompra, no_orden_compra, idProveedor, fecha_orden, idcompra_detalle, idcompra, idproducto, cantidad, precio_costo_unitario);
     C.crear();
 };
 
@@ -518,8 +518,7 @@ void R_Compras() {
 void U_Compras() {
     int idCompra = 0, no_orden_compra = 0, idProveedor = 0;
     string fecha_orden;
-    int idproducto = 0, idcompra = 0, idcompra_detalle = 0;
-    string cantidad;
+    int idproducto = 0, idcompra = 0, idcompra_detalle = 0, cantidad=0;
     float precio_costo_unitario = 0;
 
     cout << "Ingrese idCompra a modificar de la tabla Compras: " << endl;
@@ -546,7 +545,8 @@ void U_Compras() {
     cin >> idproducto;
     cin.ignore();
     cout << "Ingrese la nueva cantidad: " << endl;
-    getline(cin, cantidad);
+    cin >> cantidad;
+    cin.ignore();
     cout << "Ingrese el nuevo precio de costo unitario: " << endl;
     cin >> precio_costo_unitario;
     cin.ignore();
@@ -554,12 +554,14 @@ void U_Compras() {
     U.actualizar();
 };
 void D_Compras() {
-    int idCompra, idCompra_detalle;
+    int idCompra, idCompra_detalle,idproducto;
     cout << "Ingrese el idCompra a eliminar: " << endl;
     cin >> idCompra;
+    cout << "Ingrese el idProducto a eliminar: " << endl;
+    cin >> idproducto;
     cout << "Ingrese el idCompra_detalle a eliminar: " << endl;
     cin >> idCompra_detalle;
-    Compras D = Compras(idCompra, idCompra_detalle);
+    Compras D = Compras(idCompra, idproducto, idCompra_detalle);
     D.eliminar();
 };
 

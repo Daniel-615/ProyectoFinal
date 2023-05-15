@@ -31,7 +31,12 @@ public: //Constructores
 	Compras(int idpvdr) {
 		idproveedor = idpvdr;
 	};
-
+	Compras(int prod,int idc, int idcd, int can) {
+		idproducto = prod;
+		idCompra = idc;
+		id_compra_detalle = idcd;
+		cantidad = can ;
+	};
 	//Validacion compras_Detalle 
 	Compras(int idC, int idP, float pcu) {
 		idcompra = idC;
@@ -331,8 +336,8 @@ public: //Constructores
 		}
 		cn.cerrar_conexion();
 	};
-	
-	void eliminar() {  
+
+	void eliminar() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
 		cn.abrir_conexion();
@@ -376,6 +381,6 @@ public: //Constructores
 		}
 		cn.cerrar_conexion();
 	};
-	
-	
+
+
 };

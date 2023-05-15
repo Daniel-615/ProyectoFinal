@@ -131,7 +131,6 @@ public: //Constructores
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 				return false;
 			}
-
 		}
 		else {
 			cout << "Error en la conexion" << endl;

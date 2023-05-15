@@ -315,7 +315,7 @@ public: //Constructores
 			string pcu = to_string(precio_costo_unitario);
 			string cd = to_string(id_compra_detalle);
 			string c = to_string(cantidad);
-			string update = "UPDATE compra_detalle SET idcompra='" + t + "',idProducto='" + tt + "',cantidad='" + c + "',precio_costo_unitario='" + pcu + "' WHERE idcompra_detalle = '" + cd + "'";
+			string update = "UPDATE compras_detalle SET idcompra='" + t + "',idProducto='" + tt + "',cantidad='" + c + "',precio_costo_unitario='" + pcu + "' WHERE idcompra_detalle = '" + cd + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {
@@ -332,22 +332,22 @@ public: //Constructores
 		}
 		cn.cerrar_conexion();
 	};
-	/*
-	void eliminar() { //ARREGLAR 
+	
+	void eliminar() {  
 		int q_estado;
 		ConexionBD cn = ConexionBD();
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string deleteQuery = "DELETE FROM ventas_detalle WHERE idventa_detalle = '" + to_string(idventa_detalle) + "'";
+			string deleteQuery = "DELETE FROM compras_detalle WHERE idcompras_detalle = '" + to_string(id_compra_detalle) + "'";
 			const char* d = deleteQuery.c_str();
 			q_estado = mysql_query(cn.getConectar(), d);
 			if (!q_estado) {
 				system("cls");
-				cout << "Query Delete Successfuly from Ventas Detalle" << endl;
+				cout << "Query Delete Successfuly from Compras Detalle" << endl;
 			}
 			else {
 				system("cls");
-				cout << "Query Delete got problems from Ventas Detalle" << mysql_error(cn.getConectar()) << endl;
+				cout << "Query Delete got problems from Compras Detalle" << mysql_error(cn.getConectar()) << endl;
 			}
 		}
 		else {
@@ -360,16 +360,16 @@ public: //Constructores
 		//Compras
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string deleteQuery = "DELETE FROM ventas WHERE idVenta = '" + to_string(idVenta) + "'";
+			string deleteQuery = "DELETE FROM compras WHERE idcompra = '" + to_string(idCompra) + "'";
 			const char* d = deleteQuery.c_str();
 			q_estado = mysql_query(cn.getConectar(), d);
 			if (!q_estado) {
 				system("cls");
-				cout << "Query Delete Successfuly from Ventas" << endl;
+				cout << "Query Delete Successfuly from Compras" << endl;
 			}
 			else {
 				system("cls");
-				cout << "Query Delete got problems from Ventas " << mysql_error(cn.getConectar()) << endl;
+				cout << "Query Delete got problems from Compras " << mysql_error(cn.getConectar()) << endl;
 			}
 		}
 		else {
@@ -377,6 +377,6 @@ public: //Constructores
 		}
 		cn.cerrar_conexion();
 	};
-	*/
+	
 	
 };

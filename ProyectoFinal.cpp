@@ -7,7 +7,6 @@
 #include "Marcas.h"
 #include "Productos.h"
 #include "ventas_detalle.h"
-
 using namespace std;
 void C_Clientes() {
     string NIT, nombres, apellidos, telefono, correo_electronico;
@@ -221,7 +220,7 @@ void D_Marcas() {
     D.eliminar();
 }
 //Table Productos
-void C_Productos() { //CORREGIR
+void C_Productos() { 
     int idProducto, idMarca, existencia;
     string producto, descripcion, imagen;
     float precio_costo, precio_venta;
@@ -434,7 +433,7 @@ void U_ventas_detalle() {
     cin.ignore();
     system("pause");
     system("cls");
-    cout << "_____________________Ahora necesitamos los datos de ventas detalle_____________________" << endl;
+    cout << "________Ahora necesitamos los datos de ventas detalle________" << endl;
     fflush(stdin);
     cout << "Ingrese el idventa_detalle a actualizar: " << endl;
     cin >> idventa_detalle;
@@ -467,57 +466,202 @@ int main() {
     char opc;
     int opcion = 0;
     do {
+        system("cls");
         cout << "Bienvenido al Menu Fase I - Proyecto final." << endl;
         cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores 6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle" << endl;
         cin >> opcion;
         switch (opcion) {
         case 1: //Clientes
-            //C_Clientes(); 
-            //R_Clientes(); 
-            //U_Clientes();
-            //D_Clientes();
+            system("cls");
+            int opcionclientes;
+            cout << "______Bienvenido al CRUD de Clientes______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar"<<endl;
+            cout << "opcion:";
+            cin >> opcionclientes;
+            switch(opcionclientes){
+                case 1:
+                C_Clientes();
+                break;
+                case 2:
+                R_Clientes();
+                break;
+                case 3:
+                U_Clientes();
+                break;
+                case 4:
+                D_Clientes();      
+                break;
+                default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         case 2: //Puestos
-            //C_Puestos();
-            //R_Puestos();
-            //U_Puestos();
-            //D_Puestos();
+            system("cls");
+            int opcionpuestos;
+            cout << "______Bienvenido al CRUD de Puestos______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionpuestos;
+            switch (opcionpuestos) {
+            case 1:
+                C_Puestos();
+                break;
+            case 2:
+                R_Puestos();
+                break;
+            case 3:
+                U_Puestos();
+                break;
+            case 4:
+                D_Puestos();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         case 3: //Empleados
-            //C_Empleados();
-            //R_Empleados(); 
-            //U_Empleados();  
-            //D_Empleados(); 
+            system("cls");
+            int opcionempleados;
+            cout << "______Bienvenido al CRUD de Empleados______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionempleados;
+            switch (opcionempleados) {
+            case 1:
+                C_Empleados();
+                break;
+            case 2:
+                R_Empleados();
+                break;
+            case 3:
+                U_Empleados();
+                break;
+            case 4:
+                D_Empleados();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            } 
             break;
         case 4: //Marcas
-            //C_Marcas();
-            //R_Marcas();
-            //U_Marcas();
-            //D_Marcas();
+            system("cls");
+            int opcionmarcas;
+            cout << "______Bienvenido al CRUD de Marcas______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionmarcas;
+            switch (opcionmarcas) {
+            case 1:
+                C_Marcas();
+                break;
+            case 2:
+                R_Marcas();
+                break;
+            case 3:
+                U_Marcas();
+                break;
+            case 4:
+                D_Marcas();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         case 5: //Proveedores
-            //C_Proveedores();
-            //R_Proveedores();
-            //U_Proveedores(); 
-            //D_Proveedores();
+            system("cls");
+            int opcionproveed;
+            cout << "______Bienvenido al CRUD de Proveedores______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionproveed;
+            switch (opcionproveed) {
+            case 1:
+                C_Proveedores();
+                break;
+            case 2:
+                R_Proveedores();
+                break;
+            case 3:
+                U_Proveedores();
+                break;
+            case 4:
+                D_Proveedores();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         case 6: //Productos
-            //C_Productos();
-            //R_Productos();
-            //U_Productos();
-            //D_Productos();        
+            system("cls");
+            int opcionpro;
+            cout << "______Bienvenido al CRUD de Productos______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionpro;
+            switch (opcionpro) {
+            case 1:
+                C_Productos();
+                break;
+            case 2:
+                R_Productos();
+                break;
+            case 3:
+                U_Productos();
+                break;
+            case 4:
+                D_Productos();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         case 7: //Compras
-            //C_Compras();
-            //R_Compras();
-            //U_Compras();
-            //D_Compras();       
+            system("cls");
+            int opcioncompras;
+            cout << "______Bienvenido al CRUD de Compras______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcioncompras;
+            switch (opcioncompras) {
+            case 1:
+                //C_Compras();
+                break;
+            case 2:
+                //R_Compras();
+                break;
+            case 3:
+                //U_Compras();
+                break;
+            case 4:
+                //D_Compras();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }      
             break;
         case 8: //Ventas
-            //C_ventas_detalle();
-            //R_ventas_detalle();
-            //U_ventas_detalle();
-            D_ventas_detalle();
+            system("cls");
+            int opcionv;
+            cout << "______Bienvenido al CRUD de Ventas y Ventas Detalle!______" << endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
+            cout << "opcion:";
+            cin >> opcionv;
+            switch (opcionv) {
+            case 1:
+                C_ventas_detalle();
+                break;
+            case 2:
+                R_ventas_detalle();
+                break;
+            case 3:
+                U_ventas_detalle();
+                break;
+            case 4:
+                D_ventas_detalle();
+                break;
+            default: cout << "Esa opcion no existe!" << endl;
+                break;
+            }
             break;
         default:
             break;
@@ -525,7 +669,6 @@ int main() {
         cout << "Desea continuar? (s/n)";
         cin >> opc;
     } while (opc == 's' || opc == 'S');
-
     system("pause");
     return 0;
 }

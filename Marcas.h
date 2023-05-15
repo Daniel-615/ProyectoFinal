@@ -9,7 +9,7 @@ class Marcas
 	//idmarca SMALLINT, marca varchar(50)
 private:
 	int idMarca;
-	string marca;
+		string marca;
 
 public:
 	Marcas() {
@@ -94,7 +94,7 @@ public:
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
 			string t = to_string(idMarca);
-			string update = "UPDATE marcas SET marca='" + marca + "' WHERE idMarca = '" + t + "'";
+			string update = "UPDATE marcas SET marcas='" + marca + "' WHERE idMarca = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

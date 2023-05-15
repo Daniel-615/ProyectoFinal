@@ -7,6 +7,8 @@
 #include "Marcas.h"
 #include "Productos.h"
 #include "ventas_detalle.h"
+#include "Compras.h"
+
 using namespace std;
 void C_Clientes() {
     string NIT, nombres, apellidos, telefono, correo_electronico;
@@ -220,7 +222,7 @@ void D_Marcas() {
     D.eliminar();
 }
 //Table Productos
-void C_Productos() { 
+void C_Productos() {
     int idProducto, idMarca, existencia;
     string producto, descripcion, imagen;
     float precio_costo, precio_venta;
@@ -374,11 +376,11 @@ void C_ventas_detalle() {
     cout << "Ingrese idVentas: " << endl;
     cin >> idVenta;
     cin.ignore();
-   // Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
-    //bool valVentas = VV.leerIdVentas();
+    // Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
+     //bool valVentas = VV.leerIdVentas();
 
-    //condicion
-    if (!valClientes || !valEmpleados || !valProducto ) {
+     //condicion
+    if (!valClientes || !valEmpleados || !valProducto) {
         return;
     }
 
@@ -458,9 +460,14 @@ void D_ventas_detalle() {
     cin >> idVenta;
     cout << "Ingrese el idventa_detalle a eliminar: " << endl;
     cin >> idventa_detalle;
-    Ventas_detalle D = Ventas_detalle(idVenta,idventa_detalle);
+    Ventas_detalle D = Ventas_detalle(idVenta, idventa_detalle);
     D.eliminar();
 };
+
+void C_Compras() {};
+void R_Compras() {};
+void U_Compras() {};
+void D_Compras() {};
 
 int main() {
     char opc;
@@ -475,23 +482,23 @@ int main() {
             system("cls");
             int opcionclientes;
             cout << "______Bienvenido al CRUD de Clientes______" << endl;
-            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar"<<endl;
+            cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionclientes;
-            switch(opcionclientes){
-                case 1:
+            switch (opcionclientes) {
+            case 1:
                 C_Clientes();
                 break;
-                case 2:
+            case 2:
                 R_Clientes();
                 break;
-                case 3:
+            case 3:
                 U_Clientes();
                 break;
-                case 4:
-                D_Clientes();      
+            case 4:
+                D_Clientes();
                 break;
-                default: cout << "Esa opcion no existe!" << endl;
+            default: cout << "Esa opcion no existe!" << endl;
                 break;
             }
             break;
@@ -541,7 +548,7 @@ int main() {
                 break;
             default: cout << "Esa opcion no existe!" << endl;
                 break;
-            } 
+            }
             break;
         case 4: //Marcas
             system("cls");
@@ -624,20 +631,20 @@ int main() {
             cin >> opcioncompras;
             switch (opcioncompras) {
             case 1:
-                //C_Compras();
+                C_Compras();
                 break;
             case 2:
-                //R_Compras();
+                R_Compras();
                 break;
             case 3:
-                //U_Compras();
+                U_Compras();
                 break;
             case 4:
-                //D_Compras();
+                D_Compras();
                 break;
             default: cout << "Esa opcion no existe!" << endl;
                 break;
-            }      
+            }
             break;
         case 8: //Ventas
             system("cls");

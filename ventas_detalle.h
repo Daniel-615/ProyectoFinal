@@ -324,8 +324,8 @@ public:
 					cout << "idVenta: " << fila[4] << endl;
 					cout << "Numero Factura: " << fila[5] << endl;
 					cout << "___________Productos___________" << endl;
-					cout << "idProducto: " << fila[5] << endl;
-					cout << "Producto: " << fila[6] << endl;
+					cout << "idProducto: " << fila[6] << endl;
+					cout << "Producto: " << fila[7] << endl;
 					cout << "\n";
 				}
 				cout << "\n";

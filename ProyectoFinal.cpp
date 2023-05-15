@@ -347,25 +347,25 @@ void D_Proveedores() {
 };
 void C_ventas_detalle() {
     //Variables Venta
-    int idVenta = 0, no_factura=0,idcliente=0,idempleado=0;
+    int idVenta = 0, no_factura = 0, idcliente = 0, idempleado = 0;
     char serie = ' ';
     string fechafactura;
     //Variables venta detalle
-    int idproducto=0, idventa = 0, idventa_detalle= 0;
+    int idproducto = 0, idventa = 0, idventa_detalle = 0;
     string cantidad;
     float precio_unitario = 0;
     cout << "Ingrese idCliente: " << endl;
     cin >> idcliente;
     cin.ignore();
-    Ventas_detalle VC = Ventas_detalle(idcliente,idVenta);
-    bool valClientes=VC.leerIdClientes();
+    Ventas_detalle VC = Ventas_detalle(idcliente);
+    bool valClientes = VC.leerIdClientes();
     //llamar constructor
     cout << "Ingrese idEmpleado: " << endl;
     cin >> idempleado;
     cin.ignore();
     Ventas_detalle VE = Ventas_detalle(idempleado, no_factura, serie);
-    bool valEmpleados=VE.leerIdEmpleados();
-    
+    bool valEmpleados = VE.leerIdEmpleados();
+
     cout << "Ingrese idProducto: " << endl;
     cin >> idproducto;
     cin.ignore();
@@ -375,11 +375,11 @@ void C_ventas_detalle() {
     cout << "Ingrese idVentas: " << endl;
     cin >> idVenta;
     cin.ignore();
-    Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
-    bool valVentas = VV.leerIdVentas();
+   // Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
+    //bool valVentas = VV.leerIdVentas();
 
     //condicion
-    if (!valClientes || !valEmpleados || !valProducto ||!valVentas){
+    if (!valClientes || !valEmpleados || !valProducto ) {
         return;
     }
 
@@ -408,6 +408,59 @@ void C_ventas_detalle() {
 void R_ventas_detalle() {
     Ventas_detalle r = Ventas_detalle();
     r.leer();
+};
+void U_ventas_detalle() {
+    int idVenta = 0, no_factura = 0, idcliente = 0, idempleado = 0, idventa_detalle = 0, idproducto = 0, idventa = 0;
+    char serie = ' ';
+    string fechafactura, cantidad;
+    float precio_unitario;
+
+    cout << "Ingrese idVenta a modificar de la tabla Ventas: " << endl;
+    cin >> idVenta;
+    cin.ignore();
+    cout << "Ingrese el nuevo numero de factura: " << endl;
+    cin >> no_factura;
+    cin.ignore();
+    cout << "Ingrese el nuevo numero de serie: " << endl;
+    cin >> serie;
+    cin.ignore();
+    cout << "Ingrese la nueva fecha de factura: " << endl;
+    getline(cin, fechafactura);
+    cout << "Ingrese el nuevo idcliente: " << endl;
+    cin >> idcliente;
+    cin.ignore();
+    cout << "Ingrese el nuevo idempleado: " << endl;
+    cin >> idempleado;
+    cin.ignore();
+    system("pause");
+    system("cls");
+    cout << "_____________________Ahora necesitamos los datos de ventas detalle_____________________" << endl;
+    fflush(stdin);
+    cout << "Ingrese el idventa_detalle a actualizar: " << endl;
+    cin >> idventa_detalle;
+    cin.ignore();
+    cout << "Ingrese el nuevo idventa: " << endl;
+    cin >> idventa;
+    cin.ignore();
+    cout << "Ingrese el nuevo idProducto: " << endl;
+    cin >> idproducto;
+    cin.ignore();
+    cout << "Ingrese la nueva cantidad: " << endl;
+    getline(cin, cantidad);
+    cout << "Ingrese el nuevo precio unitario: " << endl;
+    cin >> precio_unitario;
+    cin.ignore();
+    Ventas_detalle U = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idventa, idproducto, cantidad, precio_unitario);
+    U.actualizar();
+};
+void D_ventas_detalle() {
+    int idVenta, idventa_detalle;
+    cout << "Ingrese el idVenta a eliminar: " << endl;
+    cin >> idVenta;
+    cout << "Ingrese el idventa_detalle a eliminar: " << endl;
+    cin >> idventa_detalle;
+    Ventas_detalle D = Ventas_detalle(idVenta,idventa_detalle);
+    D.eliminar();
 };
 
 int main() {
@@ -445,7 +498,7 @@ int main() {
         case 5: //Proveedores
             //C_Proveedores();
             //R_Proveedores();
-            //U_Proveedores(); //ARREGLAR ESTE
+            //U_Proveedores(); 
             //D_Proveedores();
             break;
         case 6: //Productos
@@ -462,9 +515,9 @@ int main() {
             break;
         case 8: //Ventas
             //C_ventas_detalle();
-            R_ventas_detalle();
+            //R_ventas_detalle();
             //U_ventas_detalle();
-            //D_ventas_detalle();
+            D_ventas_detalle();
             break;
         default:
             break;

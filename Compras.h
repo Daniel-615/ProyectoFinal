@@ -6,17 +6,17 @@
 
 class Compras {
   private:
-    //Compras
-    int idCompra = 0,no_orden_compra = 0,idproveedor = 0;
+  //Compras
+  int idCompra = 0,no_orden_compra = 0,idproveedor = 0;
   string fecha_orden,fechaingreso;
   //Compras_Detalle
   int id_compra_detalle = 0,idcompra = 0,idproducto = 0,cantidad = 0;
   float precio_costo_unitario = 0;
 
   public: //Constructores
-    Compras() {};
+   Compras() {};
   //compras Detalle
-  Compras(int idC, int noc, int idProvee, string fo, int idcd, int idc, int idprodu, int cntd, float pcu) {
+   Compras(int idC, int noc, int idProvee, string fo, int idcd, int idc, int idprodu, int cntd, float pcu) {
     idCompra = idC;
     no_orden_compra = noc;
     idproveedor = idProvee;
@@ -222,6 +222,7 @@ class Compras {
       if (!q_estado) {
         resultado = mysql_store_result(cn.getConectar());
         while (fila = mysql_fetch_row(resultado)) {
+		cout << "___________Compras___________" << endl;
           cout << "idCompra: " << fila[0] << endl;
           cout << "No. Orden Compra: " << fila[1] << endl;
           cout << "Fecha Orden: " << fila[2] << endl;
@@ -232,7 +233,8 @@ class Compras {
           cout << "\n";
         }
         cout << "\n";
-        cout << "_________________________________" << endl;
+        cout << "===========================================" << endl;
+		cout << "\n";
       } else {
         system("cls");
         cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
@@ -244,15 +246,17 @@ class Compras {
       if (!q_estado) {
         resultado = mysql_store_result(cn.getConectar());
         while (fila = mysql_fetch_row(resultado)) {
-          cout << "idCompra_detalle:  " << fila[0] << endl;
-          cout << "Cantidad: " << fila[1] << endl;
-          cout << "Precio_Costo_unitario: " << fila[2] << endl;
+         cout << "___________Compras Detalle___________" << endl;
+		  cout << "idCompra_detalle:  " << fila[0] << endl;
+          cout << "idCompra: " << fila[1] << endl;
+          cout << "Cantidad: " << fila[3] << endl;
+          cout << "Precio_Costo_unitario: " << fila[4] << endl;
           cout << "___________Compras___________" << endl;
-          cout << "idCompra: " << fila[3] << endl;
-          cout << "No. Orden Compra: " << fila[4] << endl;
+          cout << "idCompra: " << fila[5] << endl;
+          cout << "No. Orden Compra: " << fila[6] << endl;
           cout << "___________Productos___________" << endl;
-          cout << "idProducto: " << fila[5] << endl;
-          cout << "Producto: " << fila[6] << endl;
+          cout << "idProducto: " << fila[7] << endl;
+          cout << "Producto: " << fila[8] << endl;
           cout << "\n";
         }
         cout << "\n";
@@ -300,9 +304,9 @@ class Compras {
     if (cn.getConectar()) {
       string t = to_string(idcompra);
       string tt = to_string(idproducto);
+      string c = to_string(cantidad);
       string pcu = to_string(precio_costo_unitario);
       string cd = to_string(id_compra_detalle);
-      string c = to_string(cantidad);
       string update = "UPDATE compras_detalle SET idcompra='" + t + "',idProducto='" + tt + "',cantidad='" + c + "',precio_costo_unitario='" + pcu + "' WHERE idcompra_detalle = '" + cd + "'";
       const char * u = update.c_str();
       q_estado = mysql_query(cn.getConectar(), u);
@@ -319,49 +323,44 @@ class Compras {
     cn.cerrar_conexion();
   };
 
-  void eliminar() {
-    int q_estado;
-    ConexionBD cn = ConexionBD();
-    cn.abrir_conexion();
-    if (cn.getConectar()) {
-      string deleteQuery = "DELETE FROM compras_detalle WHERE idcompra_detalle = '" + to_string(id_compra_detalle) + "'";
-      const char * d = deleteQuery.c_str();
-      q_estado = mysql_query(cn.getConectar(), d);
-      if (!q_estado) {
-        system("cls");
-        cout << "Query Delete Successfuly from Compras Detalle" << endl;
-      } else {
-        system("cls");
-        cout << "Query Delete got problems from Compras Detalle" << mysql_error(cn.getConectar()) << endl;
-		cout << "Query Delete encountered problems from Compras Detalle: " << mysql_error(cn.getConectar()) << endl;
-
-      }
+ void eliminar() {
+  int q_estado;
+  ConexionBD cn = ConexionBD();
+  cn.abrir_conexion();
+  
+  if (cn.getConectar()) {
+    // Eliminar registros de la tabla compras_detalle
+    string deleteQueryDetalle = "DELETE FROM compras_detalle WHERE idcompra_detalle = '" + to_string(id_compra_detalle) + "'";
+    const char* d_detalle = deleteQueryDetalle.c_str();
+    q_estado = mysql_query(cn.getConectar(), d_detalle);
+    
+    if (!q_estado) {
+      system("cls");
+      cout << "Registros eliminados exitosamente de la tabla compras_detalle" << endl;
     } else {
-      cout << "Error al conectar" << endl;
+      system("cls");
+      cout << "Ocurrió un problema al eliminar los registros de la tabla compras_detalle: " << mysql_error(cn.getConectar()) << endl;
+      cn.cerrar_conexion();
+      return;
     }
-    cn.cerrar_conexion();
-    system("pause");
-    system("cls");
-
-    //Compras
-    cn.abrir_conexion();
-    if (cn.getConectar()) {
-      string deleteQuery = "DELETE FROM compras WHERE idcompra = '" + to_string(idCompra) + "'";
-      const char * d = deleteQuery.c_str();
-      q_estado = mysql_query(cn.getConectar(), d);
-      if (!q_estado) {
-        system("cls");
-        cout << "Query Delete Successfuly from Compras" << endl;
-      } else {
-        system("cls");
-        cout << "Query Delete got problems from Compras " << mysql_error(cn.getConectar()) << endl;
-		cout << "Query Delete encountered problems from Compras: " << mysql_error(cn.getConectar()) << endl;
-
-      }
+    
+    // Eliminar registros de la tabla compras
+    string deleteQueryCompras = "DELETE FROM compras WHERE idcompra = '" + to_string(idcompra) + "'";
+    const char* d_compras = deleteQueryCompras.c_str();
+    q_estado = mysql_query(cn.getConectar(), d_compras);
+    
+    if (!q_estado) {
+      system("cls");
+      cout << "Registros eliminados exitosamente de la tabla compras" << endl;
     } else {
-      cout << "Error al conectar" << endl;
+      system("cls");
+      cout << "Ocurrió un problema al eliminar los registros de la tabla compras: " << mysql_error(cn.getConectar()) << endl;
     }
-    cn.cerrar_conexion();
-  };
+  } else {
+    cout << "Error al conectar" << endl;
+  }
+  
+  cn.cerrar_conexion();
+}
 
 };

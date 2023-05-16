@@ -396,48 +396,46 @@ public:
 		}
 		cn.cerrar_conexion();
 	};
-	void eliminar() {
-		int q_estado;
-		ConexionBD cn = ConexionBD();
-		cn.abrir_conexion();
-		if (cn.getConectar()) {
-			string deleteQuery = "DELETE FROM ventas_detalle WHERE idventa_detalle = '" + to_string(idventa_detalle) + "'";
-			const char* d = deleteQuery.c_str();
-			q_estado = mysql_query(cn.getConectar(), d);
-			if (!q_estado) {
-				system("cls");
-				cout << "Query Delete Successfuly from Ventas Detalle" << endl;
-			}
-			else {
-				system("cls");
-				cout << "Query Delete got problems from Ventas Detalle" << mysql_error(cn.getConectar()) << endl;
-			}
-		}
-		else {
-			cout << "Error al conectar" << endl;
-		}
-		cn.cerrar_conexion();
-		system("pause");
-		system("cls");
+	void eliminar()
+{
+    int q_estado;
+    ConexionBD cn = ConexionBD();
+    cn.abrir_conexion();
+    if (cn.getConectar())
+    {
+        // Eliminar registro de la tabla ventas_detalle
+        string t = to_string(idventa_detalle);
+        string deleteQuery = "DELETE FROM ventas_detalle WHERE idventa_detalle = " + t;
+        const char* d = deleteQuery.c_str();
+        q_estado = mysql_query(cn.getConectar(), d);
+        if (!q_estado)
+        {
+            cout << "Registro eliminado de ventas_detalle" << endl;
+        }
+        else
+        {
+            cout << "Error al eliminar registro de ventas_detalle: " << mysql_error(cn.getConectar()) << endl;
+        }
 
-		//ventas
-		cn.abrir_conexion();
-		if (cn.getConectar()) {
-			string deleteQuery = "DELETE FROM ventas WHERE idVenta = '" + to_string(idVenta) + "'";
-			const char* d = deleteQuery.c_str();
-			q_estado = mysql_query(cn.getConectar(), d);
-			if (!q_estado) {
-				system("cls");
-				cout << "Query Delete Successfuly from Ventas" << endl;
-			}
-			else {
-				system("cls");
-				cout << "Query Delete got problems from Ventas "<< mysql_error(cn.getConectar())<<endl;
-			}
-		}
-		else {
-			cout << "Error al conectar" << endl;
-		}
-		cn.cerrar_conexion();
-	};
+        // Eliminar registro de la tabla ventas
+        t = to_string(idVenta);
+        deleteQuery = "DELETE FROM ventas WHERE idVenta = " + t;
+        d = deleteQuery.c_str();
+        q_estado = mysql_query(cn.getConectar(), d);
+        if (!q_estado)
+        {
+            cout << "Registro eliminado de ventas" << endl;
+        }
+        else
+        {
+            cout << "Error al eliminar registro de ventas: " << mysql_error(cn.getConectar()) << endl;
+        }
+    }
+    else
+    {
+        cout << "Error al conectar" << endl;
+    }
+    cn.cerrar_conexion();
+}
+
 };

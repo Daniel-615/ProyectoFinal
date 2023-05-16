@@ -531,9 +531,11 @@ void U_Compras() {
     cin >> idProveedor;
     cin.ignore();
     cout << "Ingrese la nueva fecha de orden: " << endl;
+    getline(cin, fecha_orden);
+    cin.ignore();
     system("pause");
     system("cls");
-    cout << "________Por favor ingresar Datos de la tabla Compras-Detalle________" << endl;
+    cout << "========== Por favor ingresar Datos de la tabla Compras-Detalle ===========" << endl;
     fflush(stdin);
     cout << "Ingrese el idcompra_detalle a actualizar: " << endl;
     cin >> idcompra_detalle;

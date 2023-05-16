@@ -44,9 +44,8 @@ class Compras {
     precio_costo_unitario = pcu;
   };
   //--> Eliminar
-  Compras(int idC, int idP, int idcd) {
+  Compras(int idC, int idcd) {
     idcompra = idC;
-    idproducto = idP;
     id_compra_detalle = idcd;
   };
   //CRUD
@@ -334,6 +333,8 @@ class Compras {
       } else {
         system("cls");
         cout << "Query Delete got problems from Compras Detalle" << mysql_error(cn.getConectar()) << endl;
+		cout << "Query Delete encountered problems from Compras Detalle: " << mysql_error(cn.getConectar()) << endl;
+
       }
     } else {
       cout << "Error al conectar" << endl;
@@ -354,6 +355,8 @@ class Compras {
       } else {
         system("cls");
         cout << "Query Delete got problems from Compras " << mysql_error(cn.getConectar()) << endl;
+		cout << "Query Delete encountered problems from Compras: " << mysql_error(cn.getConectar()) << endl;
+
       }
     } else {
       cout << "Error al conectar" << endl;

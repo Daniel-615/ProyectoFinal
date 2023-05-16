@@ -557,11 +557,9 @@ void D_Compras() {
     int idCompra, idCompra_detalle,idproducto;
     cout << "Ingrese el idCompra a eliminar: " << endl;
     cin >> idCompra;
-    cout << "Ingrese el idProducto a eliminar: " << endl;
-    cin >> idproducto;
     cout << "Ingrese el idCompra_detalle a eliminar: " << endl;
     cin >> idCompra_detalle;
-    Compras D = Compras(idCompra, idproducto, idCompra_detalle);
+    Compras D = Compras(idCompra, idCompra_detalle);
     D.eliminar();
 };
 

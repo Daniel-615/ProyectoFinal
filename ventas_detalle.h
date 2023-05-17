@@ -89,9 +89,9 @@ public:
 		else {
 			cout << "Error al conectar" << endl;
 		}
-		bool valor=leerIdVentas();
+		bool valor = leerIdVentas();
 		if (!valor) {
-			return; 
+			return;
 		}
 		system("pause");
 		//ventas detalle
@@ -144,7 +144,7 @@ public:
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -182,7 +182,7 @@ public:
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -221,7 +221,7 @@ public:
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -258,7 +258,7 @@ public:
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -292,18 +292,18 @@ public:
 					cout << "Serie: " << fila[2] << endl;
 					cout << "Fecha Factura: " << fila[3] << endl;
 					cout << "Fecha Ingreso: " << fila[4] << endl;
-					cout << "_________Empleado_________" << endl;
+					cout << "____Empleado____" << endl;
 					cout << "idEmpleado: " << fila[5] << endl;
 					cout << "Nombres: " << fila[6] << endl;
 					cout << "Apellidos: " << fila[7] << endl;
-					cout << "_________Cliente_________" << endl;
+					cout << "____Cliente____" << endl;
 					cout << "idCliente: " << fila[8] << endl;
 					cout << "Nombres: " << fila[9] << endl;
 					cout << "Apellidos: " << fila[10] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -320,16 +320,16 @@ public:
 					cout << "Cantidad: " << fila[1] << endl;
 					cout << "precio_unitario: " << fila[2] << endl;
 					cout << "total: " << fila[3] << endl;
-					cout << "___________Ventas___________" << endl;
+					cout << "____Ventas____" << endl;
 					cout << "idVenta: " << fila[4] << endl;
 					cout << "Numero Factura: " << fila[5] << endl;
-					cout << "___________Productos___________" << endl;
+					cout << "____Productos____" << endl;
 					cout << "idProducto: " << fila[6] << endl;
 					cout << "Producto: " << fila[7] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
-				cout << "_________________________________" << endl;
+				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
@@ -363,12 +363,12 @@ public:
 			else {
 				system("cls");
 				cout << "Query Update Failed: " << mysql_error(cn.getConectar()) << endl;
-				return; 
+				return;
 			}
 		}
 		else {
 			cout << "Error al conectar" << endl;
-			return; 
+			return;
 		}
 		cn.cerrar_conexion();
 
@@ -397,45 +397,45 @@ public:
 		cn.cerrar_conexion();
 	};
 	void eliminar()
-{
-    int q_estado;
-    ConexionBD cn = ConexionBD();
-    cn.abrir_conexion();
-    if (cn.getConectar())
-    {
-        // Eliminar registro de la tabla ventas_detalle
-        string t = to_string(idventa_detalle);
-        string deleteQuery = "DELETE FROM ventas_detalle WHERE idventa_detalle = " + t;
-        const char* d = deleteQuery.c_str();
-        q_estado = mysql_query(cn.getConectar(), d);
-        if (!q_estado)
-        {
-            cout << "Registro eliminado de ventas_detalle" << endl;
-        }
-        else
-        {
-            cout << "Error al eliminar registro de ventas_detalle: " << mysql_error(cn.getConectar()) << endl;
-        }
+	{
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConectar())
+		{
+			// Eliminar registro de la tabla ventas_detalle
+			string t = to_string(idventa_detalle);
+			string deleteQuery = "DELETE FROM ventas_detalle WHERE idventa_detalle = " + t;
+			const char* d = deleteQuery.c_str();
+			q_estado = mysql_query(cn.getConectar(), d);
+			if (!q_estado)
+			{
+				cout << "Registro eliminado de ventas_detalle" << endl;
+			}
+			else
+			{
+				cout << "Error al eliminar registro de ventas_detalle: " << mysql_error(cn.getConectar()) << endl;
+			}
 
-        // Eliminar registro de la tabla ventas
-        t = to_string(idVenta);
-        deleteQuery = "DELETE FROM ventas WHERE idVenta = " + t;
-        d = deleteQuery.c_str();
-        q_estado = mysql_query(cn.getConectar(), d);
-        if (!q_estado)
-        {
-            cout << "Registro eliminado de ventas" << endl;
-        }
-        else
-        {
-            cout << "Error al eliminar registro de ventas: " << mysql_error(cn.getConectar()) << endl;
-        }
-    }
-    else
-    {
-        cout << "Error al conectar" << endl;
-    }
-    cn.cerrar_conexion();
-}
+			// Eliminar registro de la tabla ventas
+			t = to_string(idVenta);
+			deleteQuery = "DELETE FROM ventas WHERE idVenta = " + t;
+			d = deleteQuery.c_str();
+			q_estado = mysql_query(cn.getConectar(), d);
+			if (!q_estado)
+			{
+				cout << "Registro eliminado de ventas" << endl;
+			}
+			else
+			{
+				cout << "Error al eliminar registro de ventas: " << mysql_error(cn.getConectar()) << endl;
+			}
+		}
+		else
+		{
+			cout << "Error al conectar" << endl;
+		}
+		cn.cerrar_conexion();
+	}
 
 };

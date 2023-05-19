@@ -1,0 +1,52 @@
+#include<Servo.h>
+//Asignación de puertos del arduino.
+Servo servomeca; //servo
+int MotorD = 2;  //motor de la banda
+int infra = 7;   //receptor infrarrojo
+//variables globales
+int valor = 0;  //almacenamiento y lectura del infrarrojo
+char a;         //almcenamiento y lectura puerto serial
+int b = 5;
+void setup() {
+	//iniciamos el puerto serial
+	Serial.begin(9600);
+	//declarmaos entradas y salidas
+	pinMode(MotorD, OUTPUT);
+	pinMode(infra, INPUT);
+	servomeca.attach(3);
+    Serial.print(" ");
+    Serial.println("Banda Transportadora Grupo No.6:");
+    Serial.println("Ing. c para arrancar la banda.");
+    Serial.println("Ing. v para detener la banda");
+    Serial.println("Ing. n para abrir la caja.");
+}
+
+
+void loop() {
+    valor = digitalRead(infra);
+    if (Serial.available() > 0) {
+        a = Serial.read();
+        switch (a) {
+        case 'c':
+            digitalWrite(MotorD, 1);
+            b = 1;
+            break;
+        case 'v':
+            digitalWrite(MotorD, 0);
+            b = 5;
+            break;
+        case 'b':
+            servomeca.write(180);
+            delay(1000);
+            servomeca.write(0);
+            break;
+        }
+
+    }
+    if (valor == 0) {
+        digitalWrite(MotorD, 0);
+        a = 'c';
+    }if (valor == 1 && a == 'c') {
+        digitalWrite(MotorD, 1);
+    }
+}

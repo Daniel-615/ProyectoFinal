@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <regex>
 #include <mysql.h>
 #include "Cliente.h"
 #include "Puestos.h"
@@ -7,32 +9,47 @@
 #include "Marcas.h"
 #include "Productos.h"
 #include "ventas_detalle.h"
-#include "Compras_detalle.h"
-
+#include "Compras.h"
 using namespace std;
+bool validarNIT(const string& nit) {
+    // Expresión regular para validar el formato del NIT
+    regex formato("^\\d{5}-\\d{3}-\\d{1}$");
+
+    if (nit == "Consumidor Final" || nit == "C/F") {
+        return true;
+    }
+    return regex_match(nit, formato);
+}
 void C_Clientes() {
-    string NIT, nombres, apellidos, telefono, correo_electronico;
-    int idCliente = 0;
-    bool genero;
-    cout << "Ingrese idCliente: ";
-    cin >> idCliente;
-    cin.ignore();
-    cout << "Ingrese nombres: ";
-    getline(cin, nombres);
-    cout << "Ingrese apellidos: ";
-    getline(cin, apellidos);
-    cout << "Ingrese NIT: ";
-    getline(cin, NIT);
-    cout << "Ingrese genero: (0 masculino. 1 femenino)" << endl;
-    cin >> genero;
-    cin.ignore();
-    cout << "Ingrese telefono: ";
-    getline(cin, telefono);
-    cout << "Ingrese correo electronico: ";
-    getline(cin, correo_electronico);
-    Cliente c = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico);
-    c.crear();
-    system("pause");
+    char opcion;
+    do {
+        string NIT, nombres, apellidos, telefono, correo_electronico;
+        int idCliente = 0;
+        bool genero;
+        cin.ignore();
+        cout << "Ingrese nombres: ";
+        getline(cin, nombres);
+        cout << "Ingrese apellidos: ";
+        getline(cin, apellidos);
+        cout << "Ingrese NIT el formato debe ser 12345-123-1: ";
+        getline(cin, NIT);
+        while (!validarNIT(NIT)) {
+            cout << "El NIT ingresado no es valido." << endl;
+            cout << "Ingrese otro NIT que si sea valido: " << endl;
+            getline(cin, NIT);
+        }
+        cout << "Ingrese genero: (0 masculino. 1 femenino)" << endl;
+        cin >> genero;
+        cin.ignore();
+        cout << "Ingrese telefono: ";
+        getline(cin, telefono);
+        cout << "Ingrese correo electronico: ";
+        getline(cin, correo_electronico);
+        Cliente c = Cliente(idCliente, nombres, apellidos, NIT, genero, telefono, correo_electronico);
+        c.crear();
+        cout << "Desea continuar con esta opcion? " << endl;
+        cin >> opcion;
+    } while (opcion=='s' || opcion=='S');
 };
 void R_Clientes() {
     Cliente l = Cliente();
@@ -70,14 +87,10 @@ void D_Clientes() {
     Cliente d = Cliente(idCliente);
     d.eliminar();
 };
-
 //tabla Puestos
 void C_Puestos() {
     int idPuesto = 0;
     string puesto;
-    cout << "Ingrese el idPuesto: " << endl;
-    cin >> idPuesto;
-    cin.ignore();
     cout << "Ingrese el puesto: " << endl;
     getline(cin, puesto);
     Puestos c = Puestos(idPuesto, puesto);
@@ -109,20 +122,19 @@ void D_Puestos() {
 
 //Table Empleados
 void C_Empleados() {
-    int idPuesto, idEmpleado;
+    int idPuesto, idEmpleado=0;
     string nombres, apellidos, direccion, telefono, Dpi, fechanacimiento, fecha_inicio_labores;
     bool genero = 0;
-    cout << "Ingrese el idPuesto: ";
-    cin >> idPuesto;
-    cin.ignore();
-    Empleados l = Empleados(idPuesto, nombres);
-    bool valor = l.leerId();
-    if (!valor) {
-        return;
+    bool valor = false;
+  
+    while (!valor) {
+        cout << "Ingrese el idPuesto: ";
+        cin >> idPuesto;
+        cin.ignore();
+        Empleados l = Empleados(idPuesto, nombres);
+        valor = l.leerId();
     }
-    cout << "Ingrese el idEmpleado:";
-    cin >> idEmpleado;
-    cin.ignore();
+
     cout << "Ingrese los nombres: ";
     getline(cin, nombres);
     cout << "Ingrese los apellidos: ";
@@ -348,62 +360,60 @@ void D_Proveedores() {
 };
 void C_ventas_detalle() {
     //Variables Venta
-    int idVenta = 0, no_factura = 0, idcliente = 0, idempleado = 0;
+    int idVenta = 0, no_factura = 0, idempleado = 0,idcliente=0;
     char serie = ' ';
-    string fechafactura;
+    string fechafactura,Nit;
     //Variables venta detalle
     int idproducto = 0, idventa = 0, idventa_detalle = 0;
     string cantidad;
     float precio_unitario = 0;
-    cout << "Ingrese idCliente: " << endl;
-    cin >> idcliente;
-    cin.ignore();
-    Ventas_detalle VC = Ventas_detalle(idcliente);
-    bool valClientes = VC.leerIdClientes();
-    //llamar constructor
-    cout << "Ingrese idEmpleado: " << endl;
-    cin >> idempleado;
-    cin.ignore();
-    Ventas_detalle VE = Ventas_detalle(idempleado, no_factura, serie);
-    bool valEmpleados = VE.leerIdEmpleados();
-
-    cout << "Ingrese idProducto: " << endl;
-    cin >> idproducto;
-    cin.ignore();
-    Ventas_detalle VP = Ventas_detalle(idproducto, idventa, idventa_detalle, cantidad);
-    bool valProducto = VP.leerIdProductos();
-
-    cout << "Ingrese idVentas: " << endl;
-    cin >> idVenta;
-    cin.ignore();
-    // Ventas_detalle VV = Ventas_detalle(idVenta, idproducto, idventa_detalle, cantidad, precio_unitario);
-     //bool valVentas = VV.leerIdVentas();
-
-     //condicion
-    if (!valClientes || !valEmpleados || !valProducto) {
-        return;
-    }
-
+    
     cout << "Ingrese el Numero Factura: " << endl;
     cin >> no_factura;
     cin.ignore();
     cout << "Ingrese la serie (recuerde que este es solo un caracter)" << endl;
     cin >> serie;
     cin.ignore();
-    cout << "Ingrese la fecha de la factura: " << endl;
-    getline(cin, fechafactura);
-    cin.ignore();
-    cout << "Ingrese el idventa_detalle: " << endl;
-    cin >> idventa_detalle;
-    cin.ignore();
     cout << "Ingrese la cantidad: " << endl;
     getline(cin, cantidad);
     cout << "Ingrese el precio unitario" << endl;
     cin >> precio_unitario;
     cin.ignore();
-
-    //pasos para crearla
-    Ventas_detalle C = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
+    char opcion;
+    bool valClientes = false;
+    Ventas_detalle C;
+    while (!valClientes) {
+        cout << "Ingrese Nit el formato debe ser 12345-123-1: " << endl;
+        getline(cin, Nit);
+        Ventas_detalle VC = Ventas_detalle(Nit);
+        valClientes = VC.leerNitClientes();
+        if (valClientes) {
+            idcliente = C.getidC();
+        };
+        cout << "Ese Nit no existe desea crear un registro con ese Nit? (s/n)" << endl;
+        cin >> opcion;
+        if (opcion == 's' || opcion == 'S') {
+            C_Clientes();
+        }
+    }
+    bool valEmpleados = false;
+    while (!valEmpleados) {
+        cout << "Ingrese idEmpleado: " << endl;
+        cin >> idempleado;
+        cin.ignore();
+        Ventas_detalle VE = Ventas_detalle(idempleado, no_factura, serie);
+        valEmpleados = VE.leerIdEmpleados();
+    }
+   
+    bool valProducto=false;
+    while (!valProducto) {
+        cout << "Ingrese idProducto: " << endl;
+        cin >> idproducto;
+        cin.ignore();
+        Ventas_detalle VP = Ventas_detalle(idproducto, idventa, idventa_detalle, cantidad);
+        valProducto = VP.leerIdProductos();
+    }
+    C = Ventas_detalle(idVenta, no_factura, serie, fechafactura,idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
     C.crear();
 };
 void R_ventas_detalle() {
@@ -556,7 +566,7 @@ void U_Compras() {
     U.actualizar();
 };
 void D_Compras() {
-    int idCompra, idCompra_detalle, idproducto;
+    int idCompra, idCompra_detalle;
     cout << "Ingrese el idCompra a eliminar: " << endl;
     cin >> idCompra;
     cout << "Ingrese el idCompra_detalle a eliminar: " << endl;

@@ -3,19 +3,18 @@
 #include <mysql.h>
 #include "ConexionBD.h"
 #include <string>
-#include <cstdlib> 
 using namespace std;
 class Empleados
 {
-	private:
-		int idEmpleado=0, idPuesto=0;
-		string nombres, apellidos, direccion, telefono, DPI,fecha_nacimiento,fecha_inicio_labores,fechaingreso;
-		bool genero=0;
+private:
+	int idEmpleado = 0, idPuesto = 0;
+	string nombres, apellidos, direccion, telefono, DPI, fecha_nacimiento, fecha_inicio_labores;
+	bool genero = 0;
 	//constructor	
-	public: 
+public:
 	Empleados() {
 	};
-	Empleados(int idE, string nom,string ape,string dir, string tel,string dpi,bool g,string fecha_n, int idP,string fecha_i_l,string fecha_i) {
+	Empleados(int idE, string nom, string ape, string dir, string tel, string dpi, bool g, string fecha_n, int idP, string fecha_i_l) {
 		idEmpleado = idE;
 		nombres = nom;
 		apellidos = ape;
@@ -25,10 +24,9 @@ class Empleados
 		genero = g;
 		fecha_nacimiento = fecha_n;
 		idPuesto = idP;
-		fecha_inicio_labores =fecha_i_l;
-		fechaingreso = fecha_i;
+		fecha_inicio_labores = fecha_i_l;
 	}
-	Empleados(int idP,string nom) {
+	Empleados(int idP, string nom) {
 		idPuesto = idP;
 		nombres = nom;
 	};
@@ -47,8 +45,6 @@ class Empleados
 	void setGenero(bool g) { genero = g; }
 	void setfechanacimiento(string fecha) { fecha_nacimiento; };
 	void setFecha_inicio_labores(string fecha) { fecha_inicio_labores = fecha; };
-	void setfecha_ingreso(string fecha) { fechaingreso = fecha; };
-
 	//get (obtener)
 	int getidE() { return idEmpleado; }
 	int getidP() { return idPuesto; }
@@ -60,7 +56,6 @@ class Empleados
 	bool getGenero() { return genero; }
 	string getfechanacimiento() { return fecha_nacimiento; }
 	string getFecha_inicio_l() { return fecha_inicio_labores; }
-	string getFecha_Ingreso() { return fechaingreso; }
 
 	//CRUD
 	void crear() {
@@ -68,11 +63,10 @@ class Empleados
 		ConexionBD cn = ConexionBD();
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string t = to_string(idEmpleado);
 			string tt = to_string(idPuesto);
 			int genero_int = genero ? 1 : 0;
-			string insert = "INSERT INTO empleados(idEmpleado,nombres,apellidos,direccion,telefono,DPI,genero,fecha_nacimiento,idPuesto,fecha_inicio_labores,fechaingreso) "
-				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + direccion + "','" + telefono + "','" + DPI + "'," + to_string(genero_int) + ",'" + fecha_nacimiento + "','" + tt + "','" + fecha_inicio_labores + "','" + fechaingreso + "')";
+			string insert = "INSERT INTO empleados(nombres,apellidos,direccion,telefono,DPI,genero,fecha_nacimiento,idPuesto,fecha_inicio_labores,fechaingreso) "
+				"VALUES('" + nombres + "','" + apellidos + "','" + direccion + "','" + telefono + "','" + DPI + "'," + to_string(genero_int) + ",'" + fecha_nacimiento + "','" + tt + "','" + fecha_inicio_labores + "',  NOW()  )";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -88,7 +82,7 @@ class Empleados
 			cout << "Error al conectar" << endl;
 		}
 		cn.cerrar_conexion();
-	
+
 	};
 	void leer() {
 		int q_estado;
@@ -97,7 +91,7 @@ class Empleados
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string consulta = "select e.idEmpleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, e.genero, e.fecha_nacimiento, e.fecha_inicio_labores, e.fechaingreso, p.puesto from empleados As e inner join puestos AS p on e.idPuesto = p.idPuesto";
+			string consulta = "SELECT e.idEmpleado, e.nombres, e.apellidos, e.direccion, e.telefono, e.DPI, e.fecha_nacimiento, e.fecha_inicio_labores, e.fechaingreso, p.puesto, CASE WHEN e.genero = 0 THEN 'masculino' WHEN e.genero = 1 THEN 'femenino' END AS genero FROM empleados AS e INNER JOIN puestos AS p ON e.idPuesto = p.idPuesto";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
@@ -109,12 +103,11 @@ class Empleados
 					cout << "Direccion: " << fila[3] << endl;
 					cout << "Telefono: " << fila[4] << endl;
 					cout << "DPI: " << fila[5] << endl;
-					int genero = atoi(fila[6]); // Convertir la cadena de caracteres a un entero
-					cout << "Genero: " << genero << endl; 
-					cout << "Fecha Nacimiento: " << fila[7] << endl;
-					cout << "Fecha inicio Labores: " << fila[8] << endl;
-					cout << "Fecha Ingreso: " << fila[9] << endl;
-					cout << "Puesto :" << fila[10] << endl;
+					cout << "Genero: " << fila[10] << endl;
+					cout << "Fecha Nacimiento: " << fila[6] << endl;
+					cout << "Fecha inicio Labores: " << fila[7] << endl;
+					cout << "Fecha Ingreso: " << fila[8] << endl;
+					cout << "Puesto :" << fila[9] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
@@ -145,11 +138,11 @@ class Empleados
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
-					cout << "No se encontraron resultados con el idPuesto: " <<t<< endl;
+					cout << "No se encontraron resultados con el idPuesto: " << t << endl;
 					return false;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "idPuesto: " << fila[0]<<endl;
+					cout << "idPuesto: " << fila[0] << endl;
 					cout << "puesto: " << fila[1] << endl;
 					cout << "\n";
 				}
@@ -177,7 +170,7 @@ class Empleados
 			string t = to_string(idEmpleado);
 			string tt = to_string(idPuesto);
 			int genero_int = genero ? 1 : 0;
-			string update = "UPDATE empleados SET nombres='" + nombres + "',apellidos='" + apellidos + "',direccion='" + direccion + "',telefono='" + telefono + "',DPI='" + DPI + "',genero=" + to_string(genero_int) + ",fecha_nacimiento='" + fecha_nacimiento + "',idPuesto=" + tt + ",fecha_inicio_labores='" + fecha_inicio_labores + "',fechaingreso='" + fechaingreso + "' WHERE idEmpleado = '" + t + "'";
+			string update = "UPDATE empleados SET nombres='" + nombres + "',apellidos='" + apellidos + "',direccion='" + direccion + "',telefono='" + telefono + "',DPI='" + DPI + "',genero=" + to_string(genero_int) + ",fecha_nacimiento='" + fecha_nacimiento + "',idPuesto=" + tt + ",fecha_inicio_labores='" + fecha_inicio_labores + "' WHERE idEmpleado = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

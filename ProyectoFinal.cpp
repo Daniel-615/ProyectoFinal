@@ -7,7 +7,7 @@ int main() {
     do {
         system("cls");
         cout << "Bienvenido al Menu Fase I - Proyecto final." << endl;
-        cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores 6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle" << endl;
+        cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores 6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle 9.Busqueda Nit" << endl;
         cin >> opcion;
         switch (opcion) {
         case 1: //Clientes

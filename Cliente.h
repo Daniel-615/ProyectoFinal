@@ -26,6 +26,10 @@ class Cliente
 	Cliente(int id) {
 		idCliente = id;
 	};
+	Cliente(string n,int id) {
+		Nit = n;
+		idCliente = id;
+	};
 	//metodos
 	//set (modificar)
 	void setidCliente(int id) { idCliente = id; }
@@ -51,11 +55,9 @@ class Cliente
 		ConexionBD cn = ConexionBD();
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-
-			string t = to_string(idCliente);
 			int genero_int = genero ? 1 : 0;
-			string insert = "INSERT INTO clientes(idCliente,nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) "
-				"VALUES('" + t + "','" + nombres + "','" + apellidos + "','" + Nit + "'," + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "', NOW())";
+			string insert = "INSERT INTO clientes(nombres,apellidos,NIT,genero,telefono,correo_electronico,fechaingreso) "
+				"VALUES('" + nombres + "','" + apellidos + "','" + Nit + "'," + to_string(genero_int) + ",'" + telefono + "','" + correo_electronico + "', NOW())";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -156,5 +158,36 @@ class Cliente
 		}
 		cn.cerrar_conexion();
 	};
+	bool NitCliente()
+	{
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		MYSQL_ROW fila;
+		MYSQL_RES* resultado;
+		cn.abrir_conexion();
+		if (cn.getConectar()) {
+			string consulta = "SELECT nombres,apellidos FROM clientes where Nit='" + Nit + "'";
+			const char* x = consulta.c_str();
+			q_estado = mysql_query(cn.getConectar(), x);
+			if (!q_estado) {
+				resultado = mysql_store_result(cn.getConectar());
+				while (fila = mysql_fetch_row(resultado)) {
+					cout << fila[0]<<" " << fila[1] << endl;
+				}
+				cout << "\n";
+				cout << "_________________________________" << endl;
+			}
+			else {
+				system("cls");
+				cout << "Busqueda Nit got problems" << mysql_error(cn.getConectar()) << endl;
+				return false;
+			}
 
+		}
+		else {
+			cout << "Error en la conexion" << endl;
+			return false;
+		}
+		cn.cerrar_conexion();
+	};
 };

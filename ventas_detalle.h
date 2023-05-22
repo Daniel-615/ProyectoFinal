@@ -7,13 +7,14 @@ class Ventas_detalle
 {
 private:
 	//Variables Ventas
-	int idVenta = 0, nofactura = 0, idcliente = 0, idempleado = 0;
+	int idVenta = 0, nofactura = 0, idcliente=0, idempleado = 0;
 	char serie;
 	string fechafactura;
 	//Variables Ventas_detalle
 	int idventa_detalle = 0, idventa = 0, idproducto = 0;
 	string cantidad;
 	float precio_unitario = 0;
+	string Nit;
 public:
 	//constructor
 	Ventas_detalle() {
@@ -34,8 +35,8 @@ public:
 		precio_unitario = precio_u;
 	};
 	//constructor para validacion ventas
-	Ventas_detalle(int idC) {
-		idcliente = idC;
+	Ventas_detalle(string n) {
+		Nit = n;
 	};
 	Ventas_detalle(int idE, int no, char s) {
 		idempleado = idE;
@@ -64,17 +65,26 @@ public:
 		idVenta = idV;
 		idventa_detalle = idVD;
 	};
+	//get
+	int getidC() { return idcliente; }
+	//set
+	void setidcliente(int c) { idcliente = c; }
+	void setidventa(int v) { idventa = v; }
 	//CRUD
 	void crear() {
 		//ventas
 		int q_estado;
 		ConexionBD cn = ConexionBD();
 		cn.abrir_conexion();
+
 		if (cn.getConectar()) {
-			string t = to_string(idVenta);
+			cout << idcliente<<endl;
 			string tt = to_string(nofactura);
-			string insert = "INSERT INTO ventas(idVenta,nofactura,serie,fechafactura,idcliente,idempleado,fechaingreso) "
-				"VALUES('" + t + "','" + tt + "','" + serie + "','" + fechafactura + "','" + to_string(idcliente) + "','" + to_string(idempleado) + "',  NOW()  )";
+			Ventas_detalle venta;
+			cout << idcliente<<endl;
+			system("pause");
+			string insert = "INSERT INTO ventas(nofactura, serie, fechafactura, idcliente, idempleado, fechaingreso) "
+				"VALUES('" + tt + "', '" + serie + "', NOW(), '" + to_string(idcliente) + "', '" + to_string(idempleado) + "', NOW())";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -83,31 +93,30 @@ public:
 			}
 			else {
 				system("cls");
-				cout << "Query Insert got problems" << mysql_error(cn.getConectar()) << endl;
+				cout << "Query Insert Ventas got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 		}
 		else {
 			cout << "Error al conectar" << endl;
 		}
+
 		bool valor = leerIdVentas();
 		if (!valor) {
 			return;
 		}
 		system("pause");
-		//ventas detalle
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string t = to_string(idventa_detalle);
-			string tt = to_string(idventa);
-			string ttt = to_string(idproducto);
-			string tttt = to_string(precio_unitario);
-			string insert = "INSERT INTO ventas_detalle(idventa_detalle,idVenta,idProducto,cantidad,precio_unitario)"
-				"VALUES('" + t + "','" + tt + "','" + ttt + "','" + cantidad + "','" + tttt + "')";
+			string t = to_string(idventa);
+			string tt = to_string(idproducto);
+			string ttt = to_string(precio_unitario);
+			string insert = "INSERT INTO ventas_detalle(idVenta,idProducto,cantidad,precio_unitario)"
+				"VALUES('" + t + "','" + tt + "','" + cantidad + "','" + ttt + "')";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
 				system("cls");
-				cout << "Query Insert Successfuly" << endl;
+				cout << "Query Insert Ventas Detalle Successfuly" << endl;
 			}
 			else {
 				system("cls");
@@ -118,29 +127,33 @@ public:
 			cout << "Error al conectar" << endl;
 		}
 		cn.cerrar_conexion();
-	};
+	}
 
 	//Validaciones Ventas
-	bool leerIdClientes() {
+	bool leerNitClientes() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
 		MYSQL_ROW fila;
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string t = to_string(idcliente);
-			string consulta = "SELECT nombres, apellidos FROM clientes  WHERE idCliente = '" + t + "'";
+			string consulta = "SELECT idCliente, nombres, apellidos FROM clientes WHERE NIT = '" + Nit + "'";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
-					cout << "No se encontraron resultados con el idCliente: " << t << endl;
+					cout << "No se encontraron resultados con el Nit: " << Nit << endl;
 					return false;
 				}
+				int id;
+				Ventas_detalle C;
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "Nombres: " << fila[0] << endl;
-					cout << "Apellidos: " << fila[1] << endl;
+					id = stoi(fila[0]);
+					C.setidcliente(id);
+					cout << "Id Cliente:" << id << endl;
+					cout << "Nombres: " << fila[1] << endl;
+					cout << "Apellidos: " << fila[2] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
@@ -148,17 +161,18 @@ public:
 			}
 			else {
 				system("cls");
-				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
+				cout << "Query Select got problems: " << mysql_error(cn.getConectar()) << endl;
 				return false;
 			}
-
 		}
 		else {
 			cout << "Error en la conexion" << endl;
 			return false;
 		}
 		cn.cerrar_conexion();
-	};
+		return true;
+	}
+
 	bool leerIdEmpleados() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
@@ -243,36 +257,39 @@ public:
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string t = to_string(idventa);
-			string consulta = "SELECT nofactura FROM ventas  WHERE idVenta = '" + t + "'";
+			string t = to_string(nofactura);
+			string consulta = "SELECT idVenta FROM ventas WHERE nofactura = '" + t + "'";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
-					cout << "No se encontraron resultados con el idVenta: " << t << endl;
+					cout << "No se encontraron resultados con el numero de Factura: " << t << endl;
 					return false;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "Numero Factura: " << fila[0] << endl;
+					cout << "idVenta: " << fila[0] << endl;
+					idventa = stoi(fila[0]);
 					cout << "\n";
+
 				}
 				cout << "\n";
 				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
-				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
+				cout << "Query Select tuvo problemas: " << mysql_error(cn.getConectar()) << endl;
 				return false;
 			}
-
 		}
 		else {
-			cout << "Error en la conexion" << endl;
+			cout << "Error en la conexión" << endl;
 			return false;
 		}
 		cn.cerrar_conexion();
-	};
+		return true;
+	}
+
 	void leer() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
@@ -281,25 +298,24 @@ public:
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
 			//Tabla Ventas
-			string consulta = "SELECT v.idventa,v.nofactura,v.serie,v.fechafactura,v.fechaingreso,e.idempleado,e.nombres,e.apellidos,c.idCliente,c.nombres,c.apellidos from ventas v JOIN empleados e ON v.idempleado = e.idempleado JOIN clientes c ON v.idcliente = c.idCliente; ";
+			string consulta = "SELECT v.idventa, CONCAT(v.nofactura, '-', v.serie) AS correlativo, v.fechafactura, v.fechaingreso, e.idempleado, e.nombres, e.apellidos, c.idCliente, c.nombres, c.apellidos FROM ventas v JOIN empleados e ON v.idempleado = e.idempleado JOIN clientes c ON v.idcliente = c.idCliente;";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				while (fila = mysql_fetch_row(resultado)) {
 					cout << "idVenta: " << fila[0] << endl;
-					cout << "numero Factura: " << fila[1] << endl;
-					cout << "Serie: " << fila[2] << endl;
-					cout << "Fecha Factura: " << fila[3] << endl;
-					cout << "Fecha Ingreso: " << fila[4] << endl;
+					cout << "Correlativo: " << fila[1] << endl;
+					cout << "Fecha Factura: " << fila[2] << endl;
+					cout << "Fecha Ingreso: " << fila[3] << endl;
 					cout << "____Empleado____" << endl;
-					cout << "idEmpleado: " << fila[5] << endl;
-					cout << "Nombres: " << fila[6] << endl;
-					cout << "Apellidos: " << fila[7] << endl;
+					cout << "idEmpleado: " << fila[4] << endl;
+					cout << "Nombres: " << fila[5] << endl;
+					cout << "Apellidos: " << fila[6] << endl;
 					cout << "____Cliente____" << endl;
-					cout << "idCliente: " << fila[8] << endl;
-					cout << "Nombres: " << fila[9] << endl;
-					cout << "Apellidos: " << fila[10] << endl;
+					cout << "idCliente: " << fila[7] << endl;
+					cout << "Nombres: " << fila[8] << endl;
+					cout << "Apellidos: " << fila[9] << endl;
 					cout << "\n";
 				}
 				cout << "\n";
@@ -316,17 +332,17 @@ public:
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "idVenta_detalle:  " << fila[0] << endl;
-					cout << "Cantidad: " << fila[1] << endl;
-					cout << "precio_unitario: " << fila[2] << endl;
-					cout << "total: " << fila[3] << endl;
 					cout << "____Ventas____" << endl;
 					cout << "idVenta: " << fila[4] << endl;
 					cout << "Numero Factura: " << fila[5] << endl;
 					cout << "____Productos____" << endl;
 					cout << "idProducto: " << fila[6] << endl;
 					cout << "Producto: " << fila[7] << endl;
-					cout << "\n";
+					cout << "_____________Ventas Detalles____________" << endl;
+					cout << "idVenta_detalle:  " << fila[0] << endl;
+					cout << "Cantidad: " << fila[1] << endl;
+					cout << "precio_unitario: " << fila[2] << endl;
+					cout << "total: " << fila[3] << endl;
 				}
 				cout << "\n";
 				cout << "___________" << endl;
@@ -437,5 +453,4 @@ public:
 		}
 		cn.cerrar_conexion();
 	}
-
 };

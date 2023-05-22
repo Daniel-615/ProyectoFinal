@@ -33,9 +33,8 @@ class Puestos
 			ConexionBD cn = ConexionBD();
 			cn.abrir_conexion();
 			if (cn.getConectar()) {
-				string t = to_string(idPuesto);
-				string insert = "INSERT INTO puestos(idPuesto,puesto) "
-					"VALUES('" + t + "','" + puesto + "')";
+				string insert = "INSERT INTO puestos(puesto) "
+					"VALUES('" + puesto + "')";
 				const char* i = insert.c_str();
 				q_estado = mysql_query(cn.getConectar(), i);
 				if (!q_estado) {

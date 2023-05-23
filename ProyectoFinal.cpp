@@ -13,7 +13,7 @@ int main() {
         case 1: //Clientes
             system("cls");
             int opcionclientes;
-            cout << "___Bienvenido al CRUD de Clientes___" << endl;
+            cout << "_____Bienvenido al CRUD de Clientes_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionclientes;
@@ -37,7 +37,7 @@ int main() {
         case 2: //Puestos
             system("cls");
             int opcionpuestos;
-            cout << "___Bienvenido al CRUD de Puestos___" << endl;
+            cout << "_____Bienvenido al CRUD de Puestos_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionpuestos;
@@ -61,7 +61,7 @@ int main() {
         case 3: //Empleados
             system("cls");
             int opcionempleados;
-            cout << "___Bienvenido al CRUD de Empleados___" << endl;
+            cout << "_____Bienvenido al CRUD de Empleados_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionempleados;
@@ -85,7 +85,7 @@ int main() {
         case 4: //Marcas
             system("cls");
             int opcionmarcas;
-            cout << "___Bienvenido al CRUD de Marcas___" << endl;
+            cout << "_____Bienvenido al CRUD de Marcas_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionmarcas;
@@ -109,7 +109,7 @@ int main() {
         case 5: //Proveedores
             system("cls");
             int opcionproveed;
-            cout << "___Bienvenido al CRUD de Proveedores___" << endl;
+            cout << "_____Bienvenido al CRUD de Proveedores_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionproveed;
@@ -133,7 +133,7 @@ int main() {
         case 6: //Productos
             system("cls");
             int opcionpro;
-            cout << "___Bienvenido al CRUD de Productos___" << endl;
+            cout << "_____Bienvenido al CRUD de Productos_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionpro;
@@ -157,7 +157,7 @@ int main() {
         case 7: //Compras
             system("cls");
             int opcioncompras;
-            cout << "___Bienvenido al CRUD de Compras___" << endl;
+            cout << "_____Bienvenido al CRUD de Compras_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcioncompras;
@@ -181,7 +181,7 @@ int main() {
         case 8: //Ventas
             system("cls");
             int opcionv;
-            cout << "___Bienvenido al CRUD de Ventas y Ventas Detalle!___" << endl;
+            cout << "_____Bienvenido al CRUD de Ventas y Ventas Detalle!_____" << endl;
             cout << "1. Crear 2.Leer 3.Actualizar 4.Eliminar" << endl;
             cout << "opcion:";
             cin >> opcionv;

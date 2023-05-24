@@ -10,10 +10,9 @@
 #include "Productos.h"
 #include "ventas_detalle.h"
 #include "Compras.h"
-#include <Servo.h>
 using namespace std;
 bool validarNIT(const string& nit) {
-    // Expresión regular para validar el formato del NIT
+    // Expresi�n regular para validar el formato del NIT
     regex formato("^\\d{5}-\\d{3}-\\d{1}$");
 
     if (nit == "Consumidor Final" || nit == "C/F") {
@@ -476,41 +475,52 @@ void D_ventas_detalle() {
 };
 
 void C_Compras() {
+    char opcion;
     //Variables Compras
-    int idCompra = 0, no_orden_compra = 0, idProveedor = 0;
+    int  no_orden_compra = 0, idProveedor = 0;
     string fecha_orden;
     //Variables Compras detalle
-    int idproducto = 0, idcompra = 0, idcompra_detalle = 0, cantidad = 0;
+    int idproducto = 0, idcompra = 0, cantidad = 0;
     float precio_costo_unitario = 0;
-    cout << "Ingrese idProveedor: " << endl;
-    cin >> idProveedor;
-    cin.ignore();
-    Compras vpr = Compras(idProveedor);
-    bool valProveedor = vpr.leeridProveedores();
     //llamar constructor
-    cout << "Ingrese idProducto: " << endl;
-    cin >> idproducto;
-    cin.ignore();
-    Compras VP = Compras(idproducto, idCompra, idcompra_detalle, cantidad);
-    bool valProducto = VP.leerIdProductos();
-
-    cout << "Ingrese idCompras: " << endl;
-    cin >> idCompra;
-    cin.ignore();
-
-    if (!valProveedor || !valProducto) {
-        return;
-    }
 
     cout << "Ingrese el No. Orden de Compra: " << endl;
     cin >> no_orden_compra;
     cin.ignore();
+
+    bool valProveedor =false;
+    while (!valProveedor){
+    cout << "Ingrese idProveedor: " << endl;
+    cin >> idProveedor;
+    cin.ignore();
+    Compras vpr = Compras(idProveedor);
+    valProveedor = vpr.leeridProveedores();
+    
+    }
+
     cout << "Ingrese la fecha de Orden: " << endl;
     getline(cin, fecha_orden);
     cin.ignore();
-    cout << "Ingrese el idcompra_detalle: " << endl;
-    cin >> idcompra_detalle;
+
+    bool valCompras =false;
+    while (!valCompras){
+    cout << "Ingrese idCompras: " << endl;
+    cin >> idcompra;
     cin.ignore();
+    Compras VC = Compras(idcompra);
+    valCompras=VC.leerIdCompras();
+    }
+
+    bool valProducto=false;
+    
+    while (!valProducto) {
+        cout << "Ingrese idProducto: " << endl;
+        cin >> idproducto;
+        cin.ignore();
+        Ventas_detalle VP = Ventas_detalle(idproducto, cantidad);
+        valProducto = VP.leerIdProductos();
+    }
+
     cout << "Ingrese la cantidad: " << endl;
     cin >> cantidad;
     cin.ignore();
@@ -518,7 +528,7 @@ void C_Compras() {
     cin >> precio_costo_unitario;
     cin.ignore();
 
-    Compras C = Compras(idCompra, no_orden_compra, idProveedor, fecha_orden, idcompra_detalle, idcompra, idproducto, cantidad, precio_costo_unitario);
+    Compras C = Compras( no_orden_compra, idProveedor, fecha_orden, idcompra, idproducto, cantidad, precio_costo_unitario);
     C.crear();
 };
 
@@ -575,61 +585,3 @@ void D_Compras() {
     Compras D = Compras(idCompra, idCompra_detalle);
     D.eliminar();
 };
-void Arduino()
-{
-Servo servomeca; //Servo 
-int MotorD =2; // motor de la banda 
-int infra =7; // receptor infrarojo 
-//variables globales
-int valor = 0; //almacenamiento y lectura del punto serial 
-char a;
-int b = 5;
-
-void setup() {
-  // put your setup code here, to run once:
-//iniciamos puerto serial 
-Serial.begin(9600);
-//declaramos entradas y salidas
-pinMode (MotprD, OUTPUT);
-pinMode(infra, INPUT);
-servomeca.attach(3);
-Serial.print(" ");
-Serial.printIn("Banda Transportadora Grupo No.6:");
-Serial.printIn("Ing. c para arrancar la banda.");
-Serial.printIn("Ing. v para detener la banda");
-Serial.printIn("Ing. n para abrir la caja.");
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-valor = digitalRead(infra);
-if(Serial.available()> 0){
-  a = Serial.read();
-  switch(a){
-    case 'c':
-    digitalWrite(MotorD, 1);
-    b = 1;
-    break;
-    case'v': 
-    digitalWrite(MotorD, 0);
-    b = 5;
-    break;
-    case'b':
-    servomeca.write(180);
-    delay(1000);
-    servomeca.write(0);
-    break;
-  }
-  }
-  if (valor == 0){
-    digitalWrite (MotorD, 0);
-    a = 'c';
-  }
-  if (valor == 1 && a == 'c'){
-    digitalWrite(MotorD, 1);
-  }
-}
-}
-};
-
-    

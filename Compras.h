@@ -33,16 +33,18 @@ class Compras {
   };
   Compras(int prod, int idc, int idcd, int can) {
     idproducto = prod;
-    idCompra = idc;
-    id_compra_detalle = idcd;
     cantidad = can;
   };
   //Validacion compras_Detalle 
-  Compras(int idC, int idP, float pcu) {
+  
+  Compras(int idC) {
     idcompra = idC;
+  };
+  Compras( int idP, float pcu) {
     idproducto = idP;
     precio_costo_unitario = pcu;
   };
+
   //--> Eliminar
   Compras(int idC, int idcd) {
     idcompra = idC;
@@ -360,5 +362,8 @@ class Compras {
   
   cn.cerrar_conexion();
 }
+
+it get_idcompras(){return idcompra}
+
 
 };

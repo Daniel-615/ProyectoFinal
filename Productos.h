@@ -206,4 +206,6 @@ class Productos
 		}
 		cn.cerrar_conexion();
 	};
+
+	int getidproducto(){return idProducto};
 };

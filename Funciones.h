@@ -482,6 +482,7 @@ void C_Compras() {
     char opcion;
     //Variables Compras
     int  no_orden_compra = 0, idProveedor = 0;
+    int id_compra_detalle=0;
     string fecha_orden;
     //Variables Compras detalle
     int idproducto = 0, idcompra = 0, cantidad = 0;
@@ -510,17 +511,17 @@ void C_Compras() {
         cout << "Ingrese idCompras: " << endl;
         cin >> idcompra;
         cin.ignore();
-        Compras VC = Compras(idcompra);
+        Compras VC = Compras(idcompra,id_compra_detalle,idProveedor);
         valCompras = VC.leerIdCompras();
     }
 
     bool valProducto = false;
-
+//4
     while (!valProducto) {
         cout << "Ingrese idProducto: " << endl;
         cin >> idproducto;
         cin.ignore();
-        Ventas_detalle VP = Ventas_detalle(idproducto, cantidad);
+        Compras VP = Compras(idcompra,idproducto, cantidad,id_compra_detalle);
         valProducto = VP.leerIdProductos();
     }
 
@@ -531,7 +532,7 @@ void C_Compras() {
     cin >> precio_costo_unitario;
     cin.ignore();
 
-    Compras C = Compras(no_orden_compra, idProveedor, fecha_orden, idcompra, idproducto, cantidad, precio_costo_unitario);
+    Compras C = Compras(idcompra,no_orden_compra, idProveedor, fecha_orden,id_compra_detalle, idcompra, idproducto, cantidad, precio_costo_unitario);
     C.crear();
 };
 
@@ -587,4 +588,59 @@ void D_Compras() {
     cin >> idCompra_detalle;
     Compras D = Compras(idCompra, idCompra_detalle);
     D.eliminar();
+};
+void Arduino()
+{
+Servo servomeca; //Servo 
+int MotorD =2; // motor de la banda 
+int infra =7; // receptor infrarojo 
+//variables globales
+int valor = 0; //almacenamiento y lectura del punto serial 
+char a;
+int b = 5;
+
+void setup() {
+  // put your setup code here, to run once:
+//iniciamos puerto serial 
+Serial.begin(9600);
+//declaramos entradas y salidas
+pinMode (MotprD, OUTPUT);
+pinMode(infra, INPUT);
+servomeca.attach(3);
+Serial.print(" ");
+Serial.printIn("Banda Transportadora Grupo No.6:");
+Serial.printIn("Ing. c para arrancar la banda.");
+Serial.printIn("Ing. v para detener la banda");
+Serial.printIn("Ing. n para abrir la caja.");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+valor = digitalRead(infra);
+if(Serial.available()> 0){
+  a = Serial.read();
+  switch(a){
+    case 'c':
+    digitalWrite(MotorD, 1);
+    b = 1;
+    break;
+    case'v': 
+    digitalWrite(MotorD, 0);
+    b = 5;
+    break;
+    case'b':
+    servomeca.write(180);
+    delay(1000);
+    servomeca.write(0);
+    break;
+  }
+  }
+  if (valor == 0){
+    digitalWrite (MotorD, 0);
+    a = 'c';
+  }
+  if (valor == 1 && a == 'c'){
+    digitalWrite(MotorD, 1);
+  }
+}
 };

@@ -31,25 +31,28 @@ class Compras {
   Compras(int idpvdr) {
     idproveedor = idpvdr;
   };
-  Compras(int prod, int idc, int idcd, int can) {
-    idproducto = prod;
-    cantidad = can;
-  };
-  //Validacion compras_Detalle 
   
-  Compras(int idC) {
-    idcompra = idC;
-  };
-  Compras( int idP, float pcu) {
-    idproducto = idP;
-    precio_costo_unitario = pcu;
-  };
-
   //--> Eliminar
   Compras(int idC, int idcd) {
     idcompra = idC;
     id_compra_detalle = idcd;
   };
+  
+  Compras(int idC, int idcd, int idp) {
+    idcompra = idC;
+    id_compra_detalle = idcd;
+    idproveedor =idp;
+  };
+  
+
+  //Validacion compras_Detalle 
+  Compras(int idC, int idP, int idcd,int can) {
+    idcompra = idC;
+    idproducto = idP;
+    cantidad = can;
+    id_compra_detalle = idcd;
+  };
+
   //CRUD
   void crear() {
     //compras
@@ -135,6 +138,7 @@ class Compras {
       return false;
     }
     cn.cerrar_conexion();
+    return true;
   };
   //Validacion Compras_Detalle
   bool leerIdProductos() {
@@ -171,6 +175,7 @@ class Compras {
       return false;
     }
     cn.cerrar_conexion();
+    return true;
   };
   bool leerIdCompras() {
     int q_estado;
@@ -206,6 +211,7 @@ class Compras {
       return false;
     }
     cn.cerrar_conexion();
+    return true;
   };
   //LEER 
   void leer() {
@@ -343,7 +349,6 @@ class Compras {
       cn.cerrar_conexion();
       return;
     }
-    
     // Eliminar registros de la tabla compras
     string deleteQueryCompras = "DELETE FROM compras WHERE idcompra = '" + to_string(idcompra) + "'";
     const char* d_compras = deleteQueryCompras.c_str();
@@ -362,8 +367,4 @@ class Compras {
   
   cn.cerrar_conexion();
 }
-
-it get_idcompras(){return idcompra}
-
-
 };

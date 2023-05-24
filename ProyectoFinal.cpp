@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Funciones.h"
+#include "Factura.h""
 using namespace std;
 int main() {
     char opc;
@@ -204,11 +205,12 @@ int main() {
             break;
         default:
             break;
-        }
         case 9: 
         Arduino();
         break;
-        
+        case 10: 
+        break;
+        }
         cout << "Desea continuar? (s/n)";
         cin >> opc;
     } while (opc == 's' || opc == 'S');

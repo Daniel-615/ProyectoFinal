@@ -10,7 +10,17 @@
 #include "Productos.h"
 #include "ventas_detalle.h"
 #include "Compras.h"
+//#include <Servo.h>
 using namespace std;
+
+/*Servo servomeca; //Servo 
+int MotorD = 2; // motor de la banda 
+int infra = 7; // receptor infrarojo 
+//variables globales
+int valor = 0; //almacenamiento y lectura del punto serial 
+char a;
+int b = 5;
+*/
 bool validarNIT(const string& nit) {
     regex formato("^\\d{5}-\\d{3}-\\d{1}$");
     if (nit == "Consumidor Final" || nit == "C/F") {
@@ -234,10 +244,10 @@ void D_Marcas() {
 //Table Productos
 void C_Productos() {
     int idProducto, idMarca, existencia;
-    string producto, descripcion, imagen,fecha_ingreso;
+    string producto, descripcion, imagen, fecha_ingreso;
     float precio_costo, precio_venta;
- 
-    bool valor =false;
+
+    bool valor = false;
     while (!valor) {
         cout << "Ingrese el idMarca a comprobar si existe: " << endl;
         cin >> idMarca;
@@ -269,7 +279,7 @@ void R_Productos() {
 };
 void U_Productos() {
     int idProducto, idMarca, existencia;
-    string producto, descripcion, imagen,fecha_ingreso;
+    string producto, descripcion, imagen, fecha_ingreso;
     float precio_costo, precio_venta;
 
     cout << "Ingrese el idProducto que desea actualizar:";
@@ -292,7 +302,7 @@ void U_Productos() {
     cin >> existencia;
     cin.ignore();
 
-    Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia,fecha_ingreso);
+    Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso);
     u.actualizar();
 };
 void D_Productos() {
@@ -418,7 +428,7 @@ void C_ventas_detalle() {
     }
     C = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
     C.crear();
-}; 
+};
 
 void R_ventas_detalle() {
     Ventas_detalle r = Ventas_detalle();
@@ -482,7 +492,7 @@ void C_Compras() {
     char opcion;
     //Variables Compras
     int  no_orden_compra = 0, idProveedor = 0;
-    int id_compra_detalle=0;
+    int id_compra_detalle = 0;
     string fecha_orden;
     //Variables Compras detalle
     int idproducto = 0, idcompra = 0, cantidad = 0;
@@ -511,17 +521,17 @@ void C_Compras() {
         cout << "Ingrese idCompras: " << endl;
         cin >> idcompra;
         cin.ignore();
-        Compras VC = Compras(idcompra,id_compra_detalle,idProveedor);
+        Compras VC = Compras(idcompra, id_compra_detalle, idProveedor);
         valCompras = VC.leerIdCompras();
     }
 
     bool valProducto = false;
-//4
+    //4
     while (!valProducto) {
         cout << "Ingrese idProducto: " << endl;
         cin >> idproducto;
         cin.ignore();
-        Compras VP = Compras(idcompra,idproducto, cantidad,id_compra_detalle);
+        Compras VP = Compras(idcompra, idproducto, cantidad, id_compra_detalle);
         valProducto = VP.leerIdProductos();
     }
 
@@ -532,7 +542,7 @@ void C_Compras() {
     cin >> precio_costo_unitario;
     cin.ignore();
 
-    Compras C = Compras(idcompra,no_orden_compra, idProveedor, fecha_orden,id_compra_detalle, idcompra, idproducto, cantidad, precio_costo_unitario);
+    Compras C = Compras(idcompra, no_orden_compra, idProveedor, fecha_orden, id_compra_detalle, idcompra, idproducto, cantidad, precio_costo_unitario);
     C.crear();
 };
 
@@ -589,58 +599,53 @@ void D_Compras() {
     Compras D = Compras(idCompra, idCompra_detalle);
     D.eliminar();
 };
-void Arduino()
-{
-Servo servomeca; //Servo 
-int MotorD =2; // motor de la banda 
-int infra =7; // receptor infrarojo 
-//variables globales
-int valor = 0; //almacenamiento y lectura del punto serial 
-char a;
-int b = 5;
-
+/*
 void setup() {
-  // put your setup code here, to run once:
-//iniciamos puerto serial 
-Serial.begin(9600);
-//declaramos entradas y salidas
-pinMode (MotprD, OUTPUT);
-pinMode(infra, INPUT);
-servomeca.attach(3);
-Serial.print(" ");
-Serial.printIn("Banda Transportadora Grupo No.6:");
-Serial.printIn("Ing. c para arrancar la banda.");
-Serial.printIn("Ing. v para detener la banda");
-Serial.printIn("Ing. n para abrir la caja.");
+    // put your setup code here, to run once:
+  //iniciamos puerto serial 
+    Serial.begin(9600);
+    //declaramos entradas y salidas
+    pinMode(MotprD, OUTPUT);
+    pinMode(infra, INPUT);
+    servomeca.attach(3);
+    Serial.print(" ");
+    Serial.printIn("Banda Transportadora Grupo No.6:");
+    Serial.printIn("Ing. c para arrancar la banda.");
+    Serial.printIn("Ing. v para detener la banda");
+    Serial.printIn("Ing. n para abrir la caja.");
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-valor = digitalRead(infra);
-if(Serial.available()> 0){
-  a = Serial.read();
-  switch(a){
-    case 'c':
-    digitalWrite(MotorD, 1);
-    b = 1;
-    break;
-    case'v': 
-    digitalWrite(MotorD, 0);
-    b = 5;
-    break;
-    case'b':
-    servomeca.write(180);
-    delay(1000);
-    servomeca.write(0);
-    break;
-  }
-  }
-  if (valor == 0){
-    digitalWrite (MotorD, 0);
-    a = 'c';
-  }
-  if (valor == 1 && a == 'c'){
-    digitalWrite(MotorD, 1);
-  }
-}
+    // put your main code here, to run repeatedly:
+    valor = digitalRead(infra);
+    if (Serial.available() > 0) {
+        a = Serial.read();
+        switch (a) {
+        case 'c':
+            digitalWrite(MotorD, 1);
+            b = 1;
+            break;
+        case'v':
+            digitalWrite(MotorD, 0);
+            b = 5;
+            break;
+        case'b':
+            servomeca.write(180);
+            delay(1000);
+            servomeca.write(0);
+            break;
+        }
+    }
+    if (valor == 0) {
+        digitalWrite(MotorD, 0);
+        a = 'c';
+    }
+    if (valor == 1 && a == 'c') {
+        digitalWrite(MotorD, 1);
+    }
 };
+void Arduino() {
+    setup();
+    loop();
+}
+*/

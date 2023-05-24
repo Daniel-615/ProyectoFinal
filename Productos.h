@@ -3,29 +3,30 @@
 #include <mysql.h>
 #include "ConexionBD.h"
 #include <string>
- 
+
 using namespace std;
 class Productos
 {
-	private:
-		int idProducto=0, idMarca=0,existencia=0;
-		string producto, descripcion, imagen, precio_costo, precio_venta,fecha_ingreso;
+private:
+	int idProducto = 0, idMarca = 0, existencia = 0;
+	string producto, descripcion, imagen, fecha_ingreso;
+	float precio_costo=0, precio_venta = 0;
 	//constructor	
-	public: 
+public:
 	Productos() {
 	};
-	Productos(int idP, string pro,int idM,string des, string img,string pr_c,string pr_v,int e,string fecha_i) {
+	Productos(int idP, string pro, int idM, string des, string img, float pr_c, float pr_v, int e, string fecha_i) {
 		idProducto = idP;
 		producto = pro;
 		idMarca = idM;
 		descripcion = des;
 		imagen = img;
 		precio_costo = pr_c;
-		precio_venta= pr_v;
+		precio_venta = pr_v;
 		existencia = e;
-		fecha_ingreso =fecha_i;
+		fecha_ingreso = fecha_i;
 	}
-	Productos(int idP,string pro) {
+	Productos(int idP, string pro) {
 		idProducto = idP;
 		producto = pro;
 	};
@@ -34,26 +35,26 @@ class Productos
 	};
 	//metodos
 	//set (modificar)
-	void setidProducto(int idP){ idProducto=idP;};
-	void setproducto(string pro){ producto=pro;};
-	void setidMarca(int idM){idMarca=idM;};
-	void setdescripcion(string des){ descripcion=des;};
-	void setimagen(string img){ imagen=img;};
-	void setprecio_costo(string pr_c){ precio_costo= pr_c;};
-	void setprecio_venta(string pr_v){ precio_venta=pr_v;};
-	void setExistencia(int e){ existencia=e ;};
-	void setfecha_ingreso(string fecha_i){ fecha_ingreso= fecha_i;};
-    
+	void setidProducto(int idP) { idProducto = idP; };
+	void setproducto(string pro) { producto = pro; };
+	void setidMarca(int idM) { idMarca = idM; };
+	void setdescripcion(string des) { descripcion = des; };
+	void setimagen(string img) { imagen = img; };
+	void setprecio_costo(float pr_c) { precio_costo = pr_c; };
+	void setprecio_venta(float pr_v) { precio_venta = pr_v; };
+	void setExistencia(int e) { existencia = e; };
+	void setfecha_ingreso(string fecha_i) { fecha_ingreso = fecha_i; };
+
 	//get (obtener)
-	int getidProducto(){return idProducto;}
-    string geProducto(){ return producto;}
-	int getidMarca(){return idMarca;}
-    string getDescripcion(){ return descripcion;}
-    string getImagen(){ return imagen;}
-    string getPrecio_costo(){ return precio_costo;}
-    string getPrecio_venta(){ return precio_venta;}
-	int getExistencia(){return existencia;}
-    string getFecha_ingreso(){ return fecha_ingreso;}
+	int getidProducto() { return idProducto; }
+	string geProducto() { return producto; }
+	int getidMarca() { return idMarca; }
+	string getDescripcion() { return descripcion; }
+	string getImagen() { return imagen; }
+	float getPrecio_costo() { return precio_costo; }
+	float getPrecio_venta() { return precio_venta; }
+	int getExistencia() { return existencia; }
+	string getFecha_ingreso() { return fecha_ingreso; }
 
 	//CRUD
 	void crear() {
@@ -63,8 +64,10 @@ class Productos
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
+			string pc = to_string(precio_costo);
+			string pv = to_string(precio_venta);
 			string insert = "INSERT INTO productos(idProducto,producto,idMarca,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso) "
-				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" +precio_costo + "'," +precio_venta + ",'" + to_string(existencia) + "','" + fecha_ingreso + "')";
+				"VALUES('" + t + "','" + producto + "','" + tt + "','" + descripcion + "','" + imagen + "','" + pc + "'," + pv + ",'" + to_string(existencia) + "','NOW()')";
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
@@ -80,7 +83,7 @@ class Productos
 			cout << "Error al conectar" << endl;
 		}
 		cn.cerrar_conexion();
-	
+
 	};
 	void leer() {
 		int q_estado;
@@ -101,7 +104,7 @@ class Productos
 					cout << "Imagen: " << fila[3] << endl;
 					cout << "Precio Costo: " << fila[4] << endl;
 					cout << "Precio Venta: " << fila[5] << endl;
-					cout << "Existencia: " << fila[6]<< endl; 
+					cout << "Existencia: " << fila[6] << endl;
 					cout << "Fecha Ingreso: " << fila[7] << endl;
 					cout << "idMarca: " << fila[8] << endl;
 					cout << "\n";
@@ -134,11 +137,11 @@ class Productos
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
-					cout << "No se encontraron resultados con el idProducto: " <<t<< endl;
+					cout << "No se encontraron resultados con el idProducto: " << t << endl;
 					return false;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << "idProducto: " << fila[0]<<endl;
+					cout << "idProducto: " << fila[0] << endl;
 					cout << "Producto: " << fila[1] << endl;
 					cout << "\n";
 				}
@@ -166,7 +169,9 @@ class Productos
 		if (cn.getConectar()) {
 			string t = to_string(idProducto);
 			string tt = to_string(idMarca);
-			string update = "UPDATE productos SET producto='" +producto + "',idMarca='" +tt + "',descripcion='" +descripcion + "',imagen='" +imagen + "',precio_costo='" + precio_costo + "',precio_venta=" +precio_venta + ",existencia='" + to_string(existencia) + "',fecha_ingreso='" + fecha_ingreso + "' WHERE idProducto = '" + t + "'";
+			string pv = to_string(precio_venta);
+			string pc = to_string(precio_costo);
+			string update = "UPDATE productos SET producto='" + producto + "',idMarca='" + tt + "',descripcion='" + descripcion + "',imagen='" + imagen + "',precio_costo='" + pc + "',precio_venta=" + pv + ",existencia='" + to_string(existencia) + "',fecha_ingreso='" + fecha_ingreso + "' WHERE idProducto = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {
@@ -206,6 +211,4 @@ class Productos
 		}
 		cn.cerrar_conexion();
 	};
-
-	int getidproducto(){return idProducto};
 };

@@ -66,6 +66,7 @@ public:
 		idventa_detalle = idVD;
 	};
 	//get
+
 	int getidC() { return idcliente; }
 	//set
 	void setidcliente(int c) { idcliente = c; }
@@ -78,10 +79,7 @@ public:
 		cn.abrir_conexion();
 
 		if (cn.getConectar()) {
-			cout << idcliente<<endl;
 			string tt = to_string(nofactura);
-			Ventas_detalle venta;
-			cout << idcliente<<endl;
 			system("pause");
 			string insert = "INSERT INTO ventas(nofactura, serie, fechafactura, idcliente, idempleado, fechaingreso) "
 				"VALUES('" + tt + "', '" + serie + "', NOW(), '" + to_string(idcliente) + "', '" + to_string(idempleado) + "', NOW())";
@@ -99,7 +97,6 @@ public:
 		else {
 			cout << "Error al conectar" << endl;
 		}
-
 		bool valor = leerIdVentas();
 		if (!valor) {
 			return;
@@ -130,47 +127,47 @@ public:
 	}
 
 	//Validaciones Ventas
-	bool leerNitClientes() {
+	int leerNitClientes() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
 		MYSQL_ROW fila;
 		MYSQL_RES* resultado;
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
-			string consulta = "SELECT idCliente, nombres, apellidos FROM clientes WHERE NIT = '" + Nit + "'";
+			string consulta = "SELECT max(idCliente) as id,nombres,apellidos FROM clientes WHERE NIT = '" + Nit + "'";
 			const char* x = consulta.c_str();
 			q_estado = mysql_query(cn.getConectar(), x);
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				if (mysql_num_rows(resultado) == 0) {
 					cout << "No se encontraron resultados con el Nit: " << Nit << endl;
-					return false;
+					return 0;
 				}
-				int id;
-				Ventas_detalle C;
+				
+				int id=0;
 				while (fila = mysql_fetch_row(resultado)) {
 					id = stoi(fila[0]);
-					C.setidcliente(id);
 					cout << "Id Cliente:" << id << endl;
 					cout << "Nombres: " << fila[1] << endl;
 					cout << "Apellidos: " << fila[2] << endl;
 					cout << "\n";
 				}
+				idcliente = id;
 				cout << "\n";
 				cout << "___________" << endl;
 			}
 			else {
 				system("cls");
 				cout << "Query Select got problems: " << mysql_error(cn.getConectar()) << endl;
-				return false;
+				return 0;
 			}
 		}
 		else {
 			cout << "Error en la conexion" << endl;
-			return false;
+			return 0;
 		}
 		cn.cerrar_conexion();
-		return true;
+		return idcliente;
 	}
 
 	bool leerIdEmpleados() {
@@ -325,6 +322,7 @@ public:
 				system("cls");
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 			}
+			system("pause");
 			//Tabla ventas_detalle
 			string consulta2 = "SELECT vd.idventa_detalle,vd.cantidad,vd.precio_unitario, (vd.cantidad * vd.precio_unitario) AS total, v.idVenta,v.nofactura,p.idProducto,p.producto from ventas_detalle vd JOIN ventas v ON vd.idVenta = v.idVenta JOIN productos p ON vd.idProducto = p.idProducto;";
 			const char* y = consulta2.c_str();

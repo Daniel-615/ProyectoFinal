@@ -12,9 +12,7 @@
 #include "Compras.h"
 using namespace std;
 bool validarNIT(const string& nit) {
-    // Expresi�n regular para validar el formato del NIT
     regex formato("^\\d{5}-\\d{3}-\\d{1}$");
-
     if (nit == "Consumidor Final" || nit == "C/F") {
         return true;
     }
@@ -49,7 +47,7 @@ void C_Clientes() {
         c.crear();
         cout << "Desea continuar con esta opcion? " << endl;
         cin >> opcion;
-    } while (opcion=='s' || opcion=='S');
+    } while (opcion == 's' || opcion == 'S');
 };
 void R_Clientes() {
     Cliente l = Cliente();
@@ -122,11 +120,11 @@ void D_Puestos() {
 
 //Table Empleados
 void C_Empleados() {
-    int idPuesto, idEmpleado=0;
+    int idPuesto, idEmpleado = 0;
     string nombres, apellidos, direccion, telefono, Dpi, fechanacimiento, fecha_inicio_labores;
     bool genero = 0;
     bool valor = false;
-  
+
     while (!valor) {
         cout << "Ingrese el idPuesto: ";
         cin >> idPuesto;
@@ -236,19 +234,17 @@ void D_Marcas() {
 //Table Productos
 void C_Productos() {
     int idProducto, idMarca, existencia;
-    string producto, descripcion, imagen;
+    string producto, descripcion, imagen,fecha_ingreso;
     float precio_costo, precio_venta;
-    cout << "Ingrese el idMarca a comprobar si existe: " << endl;
-    cin >> idMarca;
-    cin.ignore();
-    Productos l = Productos(idMarca, producto);
-    bool valor = l.leerId();
-    if (!valor) {
-        return;
+ 
+    bool valor =false;
+    while (!valor) {
+        cout << "Ingrese el idMarca a comprobar si existe: " << endl;
+        cin >> idMarca;
+        cin.ignore();
+        Productos l = Productos(idMarca, producto);
+        valor = l.leerId();
     }
-    cout << "Ingrese idProducto: " << endl;
-    cin >> idProducto;
-    cin.ignore();
     cout << "Ingrese el producto: " << endl;
     getline(cin, producto);
     cout << "Ingrese la descripcion: " << endl;
@@ -264,8 +260,7 @@ void C_Productos() {
     cout << "Ingrese la existencia: " << endl;
     cin >> existencia;
     cin.ignore();
-
-    Productos C = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
+    Productos C = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso);
     C.crear();
 };
 void R_Productos() {
@@ -274,8 +269,9 @@ void R_Productos() {
 };
 void U_Productos() {
     int idProducto, idMarca, existencia;
-    string producto, descripcion, imagen;
+    string producto, descripcion, imagen,fecha_ingreso;
     float precio_costo, precio_venta;
+
     cout << "Ingrese el idProducto que desea actualizar:";
     cin >> idProducto;
     cin.ignore();
@@ -296,7 +292,7 @@ void U_Productos() {
     cin >> existencia;
     cin.ignore();
 
-    Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia);
+    Productos u = Productos(idProducto, producto, idMarca, descripcion, imagen, precio_costo, precio_venta, existencia,fecha_ingreso);
     u.actualizar();
 };
 void D_Productos() {
@@ -359,15 +355,12 @@ void D_Proveedores() {
     d.eliminar();
 };
 void C_ventas_detalle() {
-    //Variables Venta
-    int idVenta = 0, no_factura = 0, idempleado = 0,idcliente=0;
+
+    int idVenta = 0, no_factura = 0, idempleado = 0, idcliente = 0, idproducto = 0, idventa = 0, idventa_detalle = 0;
     char serie = ' ';
-    string fechafactura,Nit;
-    //Variables venta detalle
-    int idproducto = 0, idventa = 0, idventa_detalle = 0;
-    string cantidad;
+    string fechafactura, Nit, cantidad;
     float precio_unitario = 0;
-    
+
     cout << "Ingrese el Numero Factura: " << endl;
     cin >> no_factura;
     cin.ignore();
@@ -379,23 +372,33 @@ void C_ventas_detalle() {
     cout << "Ingrese el precio unitario" << endl;
     cin >> precio_unitario;
     cin.ignore();
+
     char opcion;
-    bool valClientes = false;
+    int valClientes = 0;
     Ventas_detalle C;
-    while (!valClientes) {
-        cout << "Ingrese Nit el formato debe ser 12345-123-1: " << endl;
+    while (valClientes == 0) {
+        cout << "Ingrese Nit a validar el formato debe ser 12345-123-1: " << endl;
         getline(cin, Nit);
+        while (!validarNIT(Nit)) {
+            cout << "El NIT ingresado no es valido." << endl;
+            cout << "Ingrese Nit el formato debe ser 12345-123-1: " << endl;
+            getline(cin, Nit);
+        }
+
+
         Ventas_detalle VC = Ventas_detalle(Nit);
         valClientes = VC.leerNitClientes();
-        if (valClientes) {
-            idcliente = C.getidC();
-        };
-        cout << "Ese Nit no existe desea crear un registro con ese Nit? (s/n)" << endl;
-        cin >> opcion;
-        if (opcion == 's' || opcion == 'S') {
-            C_Clientes();
+        idcliente = VC.getidC();
+        cout << idcliente;
+        if (valClientes == 0) {
+            cout << "Ese Nit no existe desea crear un registro con ese Nit? (s/n)" << endl;
+            cin >> opcion;
+            if (opcion == 's' || opcion == 'S') {
+                C_Clientes();
+            }
         }
     }
+
     bool valEmpleados = false;
     while (!valEmpleados) {
         cout << "Ingrese idEmpleado: " << endl;
@@ -404,8 +407,8 @@ void C_ventas_detalle() {
         Ventas_detalle VE = Ventas_detalle(idempleado, no_factura, serie);
         valEmpleados = VE.leerIdEmpleados();
     }
-   
-    bool valProducto=false;
+
+    bool valProducto = false;
     while (!valProducto) {
         cout << "Ingrese idProducto: " << endl;
         cin >> idproducto;
@@ -413,9 +416,10 @@ void C_ventas_detalle() {
         Ventas_detalle VP = Ventas_detalle(idproducto, idventa, idventa_detalle, cantidad);
         valProducto = VP.leerIdProductos();
     }
-    C = Ventas_detalle(idVenta, no_factura, serie, fechafactura,idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
+    C = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
     C.crear();
-};
+}; 
+
 void R_ventas_detalle() {
     Ventas_detalle r = Ventas_detalle();
     r.leer();
@@ -488,31 +492,30 @@ void C_Compras() {
     cin >> no_orden_compra;
     cin.ignore();
 
-    bool valProveedor =false;
-    while (!valProveedor){
-    cout << "Ingrese idProveedor: " << endl;
-    cin >> idProveedor;
-    cin.ignore();
-    Compras vpr = Compras(idProveedor);
-    valProveedor = vpr.leeridProveedores();
-    
+    bool valProveedor = false;
+    while (!valProveedor) {
+        cout << "Ingrese idProveedor: " << endl;
+        cin >> idProveedor;
+        cin.ignore();
+        Compras vpr = Compras(idProveedor);
+        valProveedor = vpr.leeridProveedores();
     }
 
     cout << "Ingrese la fecha de Orden: " << endl;
     getline(cin, fecha_orden);
     cin.ignore();
 
-    bool valCompras =false;
-    while (!valCompras){
-    cout << "Ingrese idCompras: " << endl;
-    cin >> idcompra;
-    cin.ignore();
-    Compras VC = Compras(idcompra);
-    valCompras=VC.leerIdCompras();
+    bool valCompras = false;
+    while (!valCompras) {
+        cout << "Ingrese idCompras: " << endl;
+        cin >> idcompra;
+        cin.ignore();
+        Compras VC = Compras(idcompra);
+        valCompras = VC.leerIdCompras();
     }
 
-    bool valProducto=false;
-    
+    bool valProducto = false;
+
     while (!valProducto) {
         cout << "Ingrese idProducto: " << endl;
         cin >> idproducto;
@@ -528,7 +531,7 @@ void C_Compras() {
     cin >> precio_costo_unitario;
     cin.ignore();
 
-    Compras C = Compras( no_orden_compra, idProveedor, fecha_orden, idcompra, idproducto, cantidad, precio_costo_unitario);
+    Compras C = Compras(no_orden_compra, idProveedor, fecha_orden, idcompra, idproducto, cantidad, precio_costo_unitario);
     C.crear();
 };
 

@@ -205,6 +205,10 @@ int main() {
         default:
             break;
         }
+        case 9: 
+        Arduino();
+        break;
+        
         cout << "Desea continuar? (s/n)";
         cin >> opc;
     } while (opc == 's' || opc == 'S');

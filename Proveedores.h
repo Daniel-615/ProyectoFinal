@@ -24,19 +24,6 @@ public:
 	Proveedores(int id) {
 		idProveedore = id;
 	};
-	//metodos
-	//set
-	void set_idProveedore(int id) { idProveedore = id; }
-	void set_proveedor(string prov) { proveedor = prov; }
-	void set_nit(string n) { proveedor = n; }
-	void set_direccion(string dir) { proveedor = dir; }
-	void set_telefono(string tel) { proveedor = tel; }
-	//get
-	int get_idProveedore() { return idProveedore; }
-	string get_proveedor() { return proveedor; }
-	string get_nit() { return nit; }
-	string get_direccion() { return direccion; }
-	string get_telefono() { return telefono; }
 
 	//CRUD
 	void crear() {
@@ -103,7 +90,7 @@ public:
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
 			string t = to_string(idProveedore);
-			string update = "UPDATE proveedores SET proveedores='" + proveedor + "',NIT='" + nit + "',Direccion='" + direccion + "',telefono=" + telefono + "' WHERE idProveedore = '" + t + "'";
+			string update = "UPDATE proveedores SET proveedor='" + proveedor + "', NIT='" + nit + "', Direccion='" + direccion + "', telefono='" + telefono + "' WHERE idProveedore='" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {
@@ -131,6 +118,7 @@ public:
 				cout << "Query Delete Successfuly" << endl;
 			}
 			else {
+
 				cout << "Query Delete got problems";
 			}
 		}

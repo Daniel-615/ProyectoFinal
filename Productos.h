@@ -58,8 +58,8 @@ public:
 			cout << "Error al conectar" << endl;
 		}
 		cn.cerrar_conexion();
-
 	};
+
 	void leer() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
@@ -97,6 +97,7 @@ public:
 		cn.cerrar_conexion();
 
 	};
+
 	bool leerId() {
 		int q_estado;
 		ConexionBD cn = ConexionBD();
@@ -126,7 +127,6 @@ public:
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 				return false;
 			}
-
 		}
 		else {
 			cout << "Error en la conexion" << endl;
@@ -158,7 +158,6 @@ public:
 			cout << "Error al conectar" << endl;
 		}
 		cn.cerrar_conexion();
-
 	};
 	void eliminar() {
 		int q_estado;

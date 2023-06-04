@@ -11,7 +11,6 @@
 #include "ventas_detalle.h"
 #include "Compras.h"
 #include <random>
-
 using namespace std;
 bool validarNIT(const string& nit) {
     regex formato("^\\d{5}-\\d{3}-\\d{1}$");
@@ -155,8 +154,6 @@ void C_Empleados() {
         Empleados l = Empleados(idPuesto, nombres);
         valor = l.leerId();
     }
-
-
     Empleados c = Empleados(idEmpleado, nombres, apellidos, direccion, telefono, Dpi, genero, fechanacimiento, idPuesto, fecha_inicio_labores);
     c.crear();
 };
@@ -284,7 +281,6 @@ void U_Productos() {
     int idProducto, idMarca, existencia;
     string producto, descripcion, imagen, fecha_ingreso;
     float precio_costo, precio_venta;
-
     cout << "Ingrese el idProducto que desea actualizar:";
     cin >> idProducto;
     cin.ignore();
@@ -360,7 +356,7 @@ void U_Proveedores() {
     cout << "Ingrese telefono: ";
     getline(cin, telefono);
 
-    Proveedores u = Proveedores();
+    Proveedores u = Proveedores(idProveedore, proveedor, nit, direccion, telefono);
     u.actualizar();
 };
 
@@ -421,11 +417,11 @@ void C_ventas_detalle() {
     if (!idVenta) {
         return;
     };
-
     float valProducto = 0;
     char opcionpro;
     do {
         while (valProducto == 0) {
+            cout << "============= Producto ============="<<endl;
             cout << "Ingrese idProducto: " << endl;
             cin >> idproducto;
             cin.ignore();
@@ -435,9 +431,10 @@ void C_ventas_detalle() {
             if (valProducto) {
                 cout << "Ingrese la cantidad: " << endl;
                 getline(cin, cantidad);
+                cout << "-----------------------------------"<< endl;
             }
         }
-        cout << "Desea ingresar otro producto? (S/n)" << endl;
+        cout << "Desea ingresar otro producto? (S/N)" << endl;
         cout << "opcion: ";
         cin >> opcionpro;
         Ventas_detalle CVD = Ventas_detalle(idVenta, no_factura, serie, fechafactura, idcliente, idempleado, idventa_detalle, idVenta, idproducto, cantidad, precio_unitario);
@@ -456,7 +453,6 @@ void U_ventas_detalle() {
     char serie = ' ';
     string fechafactura, cantidad;
     float precio_unitario = 0;
-
     cout << "Ingrese idVenta a modificar de la tabla Ventas: " << endl;
     cin >> idVenta;
     cout << "Ingrese el nuevo numero de factura: " << endl;
@@ -465,7 +461,6 @@ void U_ventas_detalle() {
     cin >> idcliente;
     cout << "Ingrese el nuevo idempleado: " << endl;
     cin >> idempleado;
-    system("pause");
     cout << "_Ahora necesitamos los datos de ventas detalle_" << endl;
     fflush(stdin);
     cout << "Ingrese el idventa_detalle a actualizar: " << endl;
@@ -531,8 +526,6 @@ void C_Compras() {
     if (!idcompra) {
         return;
     };
-    cout << "id compra:" << idcompra<<endl;
-    
     float valProducto = 0;
     char opcionpro;
     do {
@@ -567,7 +560,6 @@ void U_Compras() {
     string fecha_orden, cantidad;
     int idproducto = 0, idcompra = 0, idcompra_detalle = 0;
     float precio_costo_unitario = 0;
-
     cout << "Ingrese idCompra a modificar de la tabla Compras: " << endl;
     cin >> idCompra;
     cin.ignore();

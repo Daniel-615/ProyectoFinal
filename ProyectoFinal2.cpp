@@ -2,12 +2,32 @@
 #include "Funciones.h"
 #include <chrono>
 #include <thread>
-
+#include <windows.h>
+#include <fstream>
 //#include "Arduino.ino"
 using namespace std;
+void imprimir() {
+    char opcionp;
+    cout << "Desea imprimir su factura? (S/n)" << endl;
+    cin >> opcionp;
+    if (opcionp == 'S' || opcionp == 's') {
+        HWND hwnd = GetConsoleWindow();
+        HDC printerDC = GetDC(NULL);
+        DOCINFO di = { sizeof(DOCINFO), L"MiFactura" };
+        cout << "Comenzando Impresion de Factura..." << endl;
+        StartDoc(printerDC, &di);
+        StartPage(printerDC);
+        cout << "Imprimiendo Factura..." << endl;
+        PrintWindow(hwnd, printerDC, PW_CLIENTONLY);
+        EndPage(printerDC);
+        EndDoc(printerDC);
+        cout << "Su Factura Ha sido Impresa." << endl;
+        ReleaseDC(NULL, printerDC);
+    }
+}
 void simularCarga() {
-    const int tiempoEspera = 150;
-    const int numeroPuntos = 40;
+    const int tiempoEspera = 90;
+    const int numeroPuntos = 105;
     for (int i = 0; i < numeroPuntos; i++) {
         cout << ".";
         cout.flush();
@@ -20,8 +40,9 @@ int main() {
     char opc;
     int opcion = 0;
     do {
-        cout << "Bienvenido al Menu Fase I - Proyecto final." << endl;
-        cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores 6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle 9. Arduino 10.Imprimir" << endl;
+        cout << "\t\tBienvenido al Menu Fase I - Proyecto final." << endl;
+        cout << "===================================================================================" << endl;
+        cout << "Por favor elija una tabla: 1. Clientes 2. Puestos 3.Empleados 4. Marcas 5.Proveedores\n6. Productos 7.Compras & Compras Detalle 8.Ventas & Ventas Detalle 9. Cinta Transportadora\n10. Imprimir Factura" << endl;
         cin >> opcion;
         switch (opcion) {
         case 1:
@@ -194,6 +215,7 @@ int main() {
             switch (opcionv) {
             case 1:
                 C_ventas_detalle();
+                imprimir();
                 break;
             case 2:
                 R_ventas_detalle();
@@ -228,12 +250,7 @@ int main() {
             };
             break;
         case 10:
-            char opcionp;
-            cout << "Desea imprimir? (S/n)" << endl;
-            cin >> opcionp;
-            if (opcionp == 'S' || opcionp == 's') {
-                // imprimir();
-            }
+            imprimir();
             break;
         default:
             cout << "La opcion ingresada no es valida!" << endl;
@@ -241,12 +258,11 @@ int main() {
         }
         cout << "Desea continuar? (s/n)";
         cin >> opc;
+        cout << "........................................................................................................." << endl;
     } while (opc == 's' || opc == 'S');
-    cout << "\tEl programa ha llegado a su fin!" << endl;
+    cout << "\t\t\t\tEl programa ha llegado a su fin!" << endl;
     simularCarga();
-    system("cls");
-    cout << "\t_______________________________________________Hecho por:_________________________________________________" << endl;
+    cout << "\t_______________________________________________Hecho por:_________________________________________" << endl;
     cout << "\t|Valeria R.|" << "\t|Sebastian H.|" << "\t    |Angel S.|" << "\t|Ary R.|" << "\t|Jose Pablo I.|" << "\t|Alexander C.|" << endl;
-    cout << "\t__________________________________________________________________________________________________________" << endl;
-    return 0;
+    cout << "\t__________________________________________________________________________________________________" << endl;
 }

@@ -3,7 +3,6 @@
 #include <mysql.h>
 #include "ConexionBD.h"
 #include <string>
-
 class Marcas
 {
 private:
@@ -33,11 +32,11 @@ public:
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
-				
+				system("cls");
 				cout << "Query Insert Successfuly" << endl;
 			}
 			else {
-			
+				system("cls");
 				cout << "Query Insert got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 		}
@@ -68,8 +67,8 @@ public:
 				cout << "_________________________________" << endl;
 			}
 			else {
-				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;			
-				}
+				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
+			}
 		}
 		else {
 			cout << "Error en la conexion" << endl;
@@ -87,7 +86,6 @@ public:
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {
-				
 				cout << "Query Update Successfuly" << endl;
 			}
 			else {
@@ -120,5 +118,4 @@ public:
 		}
 		cn.cerrar_conexion();
 	};
-
 };

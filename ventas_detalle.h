@@ -72,7 +72,7 @@ public:
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
-				cout << "Query Insert Successfuly" << endl;
+				//cout << "Query Insert Successfuly" << endl;
 			}
 			else {
 				cout << "Query Insert Ventas got problems" << mysql_error(cn.getConectar()) << endl;
@@ -96,7 +96,7 @@ public:
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
-				cout << "Query Insert Ventas Detalle Successfuly" << endl;
+				//cout << "Query Insert Ventas Detalle Successfuly" << endl;
 			}
 			else {
 				cout << "Query Insert Ventas got problems " << mysql_error(cn.getConectar()) << endl;
@@ -126,13 +126,12 @@ public:
 				}
 				while (fila = mysql_fetch_row(resultado)) {
 					idcliente = stoi(fila[0]);
+					cout << "\n============== Cliente ================" << endl;
 					cout << "id Cliente: " << fila[0]<<endl;
 					cout << "Nombres: " << fila[1] << endl;
 					cout << "Apellidos: " << fila[2] << endl;
-					cout << "\n";
 				}
 				cout << "\n";
-				cout << "___________" << endl;
 			}
 			else {
 				cout << "Query Select got problems: " << mysql_error(cn.getConectar()) << endl;
@@ -165,12 +164,11 @@ public:
 					return false;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
+					cout << "\n============== Empleado ================" << endl;
 					cout << "Nombres: " << fila[0] << endl;
 					cout << "Apellidos: " << fila[1] << endl;
-					cout << "\n";
 				}
 				cout << "\n";
-				cout << "___________" << endl;
 			}
 			else {
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
@@ -207,10 +205,7 @@ public:
 					cout << "Producto: " << fila[0] << endl;
 					p_u = fila[1];
 					precio_unitario = stof(p_u);
-					cout << "\n";
 				}
-				cout << "\n";
-				cout << "___________" << endl;
 			}
 			else {
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
@@ -243,8 +238,10 @@ public:
 					return 0;
 				}
 				while (fila = mysql_fetch_row(resultado)) {
+					cout << "============ Factura ============"<<endl;
 					cout << "Correlativo: " << fila[1]<<endl;
 					cout << "Fecha Factura: " << fila[2]<<endl;
+					//cout << "=================================" << endl;
 					idventa = stoi(fila[0]);
 					cout << "\n";
 				}
@@ -255,7 +252,7 @@ public:
 			}
 		}
 		else {
-			cout << "Error en la conexiï¿½n" << endl;
+			cout << "Error en la conexión" << endl;
 			return 0;
 		}
 		cn.cerrar_conexion();
@@ -370,43 +367,38 @@ public:
 				cout << "Error al conectar" << endl;
 			}
 			cn.cerrar_conexion();
-		};
-		void eliminar()
+	};
+	void eliminar()
+	{
+		int q_estado;
+		ConexionBD cn = ConexionBD();
+		cn.abrir_conexion();
+		if (cn.getConectar())
 		{
-			int q_estado;
-			ConexionBD cn = ConexionBD();
-			cn.abrir_conexion();
-			if (cn.getConectar())
-			{
-				string t = to_string(idVenta);
-				string deleteQuery = "DELETE FROM ventas_detalle WHERE idVenta = " + t;
-				const char* d = deleteQuery.c_str();
-				q_estado = mysql_query(cn.getConectar(), d);
-				if (!q_estado)
-				{
-					cout << "Registro eliminado de ventas_detalle" << endl;
-				}
-				else
-				{
-					cout << "Error al eliminar registro de ventas_detalle: " << mysql_error(cn.getConectar()) << endl;
-				}
-				t = to_string(idVenta);
-				deleteQuery = "DELETE FROM ventas WHERE idVenta = " + t;
-				d = deleteQuery.c_str();
-				q_estado = mysql_query(cn.getConectar(), d);
-				if (!q_estado)
-				{
-					cout << "Registro eliminado de ventas" << endl;
-				}
-				else
-				{
-					cout << "Error al eliminar registro de ventas: " << mysql_error(cn.getConectar()) << endl;
-				}
+			string t = to_string(idVenta);
+			string deleteQuery = "DELETE FROM ventas_detalle WHERE idVenta = " + t;
+			const char* d = deleteQuery.c_str();
+			q_estado = mysql_query(cn.getConectar(), d);
+			if (!q_estado){
+				cout << "Registro eliminado de ventas_detalle" << endl;
 			}
-			else
-			{
+			else{
+				cout << "Error al eliminar registro de ventas_detalle: " << mysql_error(cn.getConectar()) << endl;
+			}
+			t = to_string(idVenta);
+			deleteQuery = "DELETE FROM ventas WHERE idVenta = " + t;
+			d = deleteQuery.c_str();
+			q_estado = mysql_query(cn.getConectar(), d);
+			if (!q_estado){
+				cout << "Registro eliminado de ventas" << endl;
+			}
+			else{
+				cout << "Error al eliminar registro de ventas: " << mysql_error(cn.getConectar()) << endl;
+			}
+		}
+			else{
 				cout << "Error al conectar" << endl;
 			}
-			cn.cerrar_conexion();
+		cn.cerrar_conexion();
 		}
 	};

@@ -6,18 +6,17 @@
 using namespace std;
 class Cliente
 {
-	private:
-		int idCliente=0;
-		bool genero=0;
-		string nombres, apellidos, Nit,telefono,correo_electronico;
-	//constructor
-	public:
+private:
+	int idCliente = 0;
+	bool genero = 0;
+	string nombres, apellidos, Nit, telefono, correo_electronico;
+public:
 	Cliente() {
 	};
-	Cliente(int id, string nom, string ape, string n, bool g,string phone, string correo) {
+	Cliente(int id, string nom, string ape, string n, bool g, string phone, string correo) {
 		idCliente = id;
 		nombres = nom;
-		apellidos= ape;
+		apellidos = ape;
 		Nit = n;
 		genero = g;
 		telefono = phone;
@@ -26,29 +25,10 @@ class Cliente
 	Cliente(int id) {
 		idCliente = id;
 	};
-	Cliente(string n,int id) {
+	Cliente(string n, int id) {
 		Nit = n;
 		idCliente = id;
 	};
-	//metodos
-	//set (modificar)
-	void setidCliente(int id) { idCliente = id; }
-	void setNombres(string nom) { nombres = nom; }
-	void setApellidos(string ape) { apellidos = ape; }
-	void setNit(string n) { Nit = n; }
-	void setGenero(bool g) { genero = g; }
-	void setTelefono(string phone) { telefono = phone; }
-	void setCorreo_electronico(string correo) { correo_electronico = correo; }
-	//get (obtener)
-	int getidCliente() { return idCliente; }
-	string getNombres() { return nombres; }
-	string getApellidos() { return apellidos; }
-	string getNit() { return Nit; }
-	bool getGenero() { return genero; }
-	string getTelefono() { return telefono; }
-	string getCorreo_electronico() { return correo_electronico; }
-
-
 	//CRUD
 	void crear() {
 		int q_estado;
@@ -61,11 +41,9 @@ class Cliente
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
-				system("cls");
 				cout << "Query Insert Successfuly" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Insert got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 		}
@@ -91,7 +69,7 @@ class Cliente
 					cout << "nombres: " << fila[1] << endl;
 					cout << "apellidos: " << fila[2] << endl;
 					cout << "NIT: " << fila[3] << endl;
-					cout << "genero: " << fila[7] << endl; 
+					cout << "genero: " << fila[7] << endl;
 					cout << "telefono :" << fila[4] << endl;
 					cout << "correo_electronico :" << fila[5] << endl;
 					cout << "fechaingreso: " << fila[6] << endl;
@@ -101,7 +79,6 @@ class Cliente
 				cout << "_________________________________" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 
@@ -122,11 +99,9 @@ class Cliente
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {
-				system("cls");
 				cout << "Query Update Successfuly" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Update Failed: " << mysql_error(cn.getConectar()) << endl;
 			}
 		}
@@ -145,11 +120,9 @@ class Cliente
 			const char* d = deleteQuery.c_str();
 			q_estado = mysql_query(cn.getConectar(), d);
 			if (!q_estado) {
-				system("cls");
 				cout << "Query Delete Successfuly" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Delete got problems";
 			}
 		}
@@ -172,13 +145,12 @@ class Cliente
 			if (!q_estado) {
 				resultado = mysql_store_result(cn.getConectar());
 				while (fila = mysql_fetch_row(resultado)) {
-					cout << fila[0]<<" " << fila[1] << endl;
+					cout << fila[0] << " " << fila[1] << endl;
 				}
 				cout << "\n";
 				cout << "_________________________________" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Busqueda Nit got problems" << mysql_error(cn.getConectar()) << endl;
 				return false;
 			}

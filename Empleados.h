@@ -10,7 +10,6 @@ private:
 	int idEmpleado = 0, idPuesto = 0;
 	string nombres, apellidos, direccion, telefono, DPI, fecha_nacimiento, fecha_inicio_labores;
 	bool genero = 0;
-	//constructor	
 public:
 	Empleados() {
 	};
@@ -33,30 +32,6 @@ public:
 	Empleados(int idE) {
 		idEmpleado = idE;
 	};
-	//metodos
-	//set (modificar)
-	void setidEmpleado(int id) { idEmpleado = id; };
-	void setidPuesto(int idP) { idPuesto = idP; };
-	void setNombres(string nom) { nombres = nom; };
-	void setapellidos(string ape) { apellidos = ape; };
-	void setdireccion(string dire) { direccion = dire; };
-	void setTel(string tel) { telefono = tel; };
-	void setDpi(string dpi) { DPI = dpi; };
-	void setGenero(bool g) { genero = g; }
-	void setfechanacimiento(string fecha) { fecha_nacimiento; };
-	void setFecha_inicio_labores(string fecha) { fecha_inicio_labores = fecha; };
-	//get (obtener)
-	int getidE() { return idEmpleado; }
-	int getidP() { return idPuesto; }
-	string getNombres() { return nombres; }
-	string getApe() { return apellidos; }
-	string getdir() { return direccion; }
-	string getTel() { return telefono; }
-	string getDpi() { return DPI; }
-	bool getGenero() { return genero; }
-	string getfechanacimiento() { return fecha_nacimiento; }
-	string getFecha_inicio_l() { return fecha_inicio_labores; }
-
 	//CRUD
 	void crear() {
 		int q_estado;

@@ -6,10 +6,9 @@
 
 class Marcas
 {
-	//idmarca SMALLINT, marca varchar(50)
 private:
 	int idMarca;
-		string marca;
+	string marca;
 
 public:
 	Marcas() {
@@ -21,14 +20,6 @@ public:
 	Marcas(int id) {
 		idMarca = id;
 	};
-	//metodos
-	//set
-	void setidMarca(int id) { idMarca = id; }
-	void setMarcas(string mar) { marca = mar; }
-	//get
-	int getidMarca() { return idMarca; }
-	string getMarcas() { return marca; }
-
 	//CRUD
 	void crear() {
 		int q_estado;
@@ -94,7 +85,7 @@ public:
 		cn.abrir_conexion();
 		if (cn.getConectar()) {
 			string t = to_string(idMarca);
-			string update = "UPDATE marcas SET marcas='" + marca + "' WHERE idMarca = '" + t + "'";
+			string update = "UPDATE marcas SET marca='" + marca + "' WHERE idMarca = '" + t + "'";
 			const char* u = update.c_str();
 			q_estado = mysql_query(cn.getConectar(), u);
 			if (!q_estado) {

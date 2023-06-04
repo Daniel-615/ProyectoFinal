@@ -213,7 +213,6 @@ public:
 				cout << "___________" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 				return 0;
 			}
@@ -256,7 +255,7 @@ public:
 			}
 		}
 		else {
-			cout << "Error en la conexión" << endl;
+			cout << "Error en la conexiï¿½n" << endl;
 			return 0;
 		}
 		cn.cerrar_conexion();
@@ -316,7 +315,6 @@ public:
 					cout << "\n";
 				}
 				else {
-					system("cls");
 					cout << "Query Select got problems" << mysql_error(cn.getConectar()) << endl;
 				}
 

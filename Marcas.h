@@ -32,11 +32,9 @@ public:
 			const char* i = insert.c_str();
 			q_estado = mysql_query(cn.getConectar(), i);
 			if (!q_estado) {
-				system("cls");
 				cout << "Query Insert Successfuly" << endl;
 			}
 			else {
-				system("cls");
 				cout << "Query Insert got problems" << mysql_error(cn.getConectar()) << endl;
 			}
 		}

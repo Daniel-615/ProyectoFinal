@@ -2,8 +2,7 @@
 #include "Funciones.h"
 #include <chrono>
 #include <thread>
-#include <windows.h>
-#include <fstream>
+#include <windows.h>º
 //#include "Arduino.ino"
 using namespace std;
 void imprimir() {
